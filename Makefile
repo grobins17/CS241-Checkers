@@ -1,4 +1,8 @@
-CFLAGS= -g -Wall -Werror -Wshadow -Wundef -Wconversion
+CFLAGS= -O -g -Wall -Werror -Wshadow -Wundef -Wconversion
 
-main: piece.cpp
-	g++ $(CFLAGS) -o piece piece.cpp
+main: main.o piece.o square.o
+	g++ $(CFLAGS) -o main main.cpp piece.o square.o
+piece.o: piece.cpp piece.h
+	g++ $(CFLAGS) -c piece.cpp
+square.o: square.cpp square.h
+	g++ $(CFLAGS) -c square.cpp
