@@ -1,0 +1,77 @@
+Checkers.cpp
+
+Miles Berry, Tony Ngok, Garrett Robins, Sagana Ondande
+
+Components of Game:
+
+Objects:
+        Board - 2D array of Squares
+        Square - Contains a piece or is an empty square
+        Piece - Holds the data of the piece
+                Checks:
+                        Neighbors
+                        Possible moves
+                        Crowned or regular pawn
+
+Files:
+        //Files that are for each individual structure/item in the game
+        
+        Piece
+        Board
+        Square
+        Checkers.cpp //main program
+
+Main: Checkers.cpp
+        
+        Checkers:
+        
+                Runs the GUI
+                Pseudo ideas:
+                        Creates the board 
+                        Initializes the board in it's default state
+                        Reset Game Function
+                                - Creates a new board and sets pieces to their original position
+                        Label each square
+                                8x8 array
+                                Labels for each piece:
+                                        -Go by indexes for each piece
+                                
+                Two methods in Main:
+                        - User's Turn
+                        - Computer's Turn
+                                - Completely Random. Doesn't need to have a strategy.
+                
+        ######### Most Important ######## 
+                        - Getting a list of legal moves for the MiniMax. 
+                        - Has a list of possible jump 
+
+        Piece:
+                - Has a list of legal moves that can be checked
+                - ValidMove Method:
+                        - Possible moves
+                                - Check is space has a piece, what type of piece is it, can we capture this piece, etc. 
+        Square:
+                - Function that will returns a True or False statement indicating if the square holds a value or not
+                - Has needed parts if the square does hold a piece
+        Board:
+                - Testing Purposes:
+                        //Prints the Board like the Example Below
+                
+                - Having a more text display of the game before put into a more graphic platform        
+
+
+MiniMax 
+
+Example Board:
+[o][ ][o][ ][o][ ][o][ ]
+[ ][o][ ][o][ ][o][ ][o]
+[o][ ][o][ ][o][ ][o][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ]
+[x][ ][x][ ][x][ ][x][ ] 
+[ ][x][ ][x][ ][x][ ][x]
+[x][ ][x][ ][x][ ][x][ ] 
+
+
+ 
+
