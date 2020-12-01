@@ -6,3 +6,5 @@ piece.o: piece.cpp piece.h
 	g++ $(CFLAGS) -c piece.cpp
 square.o: square.cpp square.h
 	g++ $(CFLAGS) -c square.cpp
+clean:
+	rm -f main *.o
