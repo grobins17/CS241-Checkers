@@ -20,7 +20,7 @@ class Square{
   //2 is for computer's piece
   int type;
 
-  
+  Piece * ptr;
  public:
   //calls constructor for the Square object 
   Square(int, int, int);	
@@ -32,7 +32,11 @@ class Square{
   int getCol();
   
   //gets type
-  int getType();		
+  int getType();
+
+  void setPiece(Piece * new);
+
+  void removePiece();
 };
 
 

@@ -20,3 +20,9 @@ int Square::getRow(){
 int Square::getType(){
   return type;
 }
+void Square::setPiece(Piece * newPiece){
+  piece = newPiece;
+}
+void Square::removePiece(){
+  piece = NULL;
+}
