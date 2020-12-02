@@ -6,10 +6,11 @@
 using namespace std;
 
 // constructor for the Square object
-Square::Square (int a, int b, int c){
+Square::Square (int a, int b, int c, Piece *ptr){
 	row = a;
 	col = b;
 	type = c;
+	piece = ptr;
 }
 int Square::getCol(){
   return col;

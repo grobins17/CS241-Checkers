@@ -1,7 +1,6 @@
 //Square Class
 
 #include<iostream>
-//#include<piece.h>
 
 using namespace std;
 
@@ -23,7 +22,7 @@ class Square{
   Piece * ptr;
  public:
   //calls constructor for the Square object 
-  Square(int, int, int);	
+  Square(int, int, int, Piece*);	
   
   //gets row 
   int getRow();
@@ -34,12 +33,10 @@ class Square{
   //gets type
   int getType();
 
-  void setPiece(Piece * new);
+  void setPiece(Piece * newPiece);
 
   void removePiece();
 };
-
-
 
 
 

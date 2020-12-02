@@ -1,6 +1,6 @@
 #include<iostream>
-#include "piece.cpp"
-#include "square.cpp"
+#include "piece.h"
+#include "square.h"
 
 using namespace std;
 
