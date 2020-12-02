@@ -5,25 +5,36 @@
 
 using namespace std;
 
+
+Square::Square(){
+  row = 0;
+  col = 0;
+  ptr = NULL;
+}
 // constructor for the Square object
-Square::Square (int a, int b, int c, Piece *ptr){
+Square::Square (int a, int b, Piece *piece){
 	row = a;
 	col = b;
-	type = c;
-	piece = ptr;
+	ptr = piece;
 }
 int Square::getCol(){
   return col;
 }
+void Square::setCol(int c){
+  col = c;
+}
 int Square::getRow(){
   return row;
 }
-int Square::getType(){
-  return type;
+void Square::setRow(int r){
+  row = r;
+}
+int Square::isEmpty(){
+  return (ptr == NULL);
 }
 void Square::setPiece(Piece * newPiece){
-  piece = newPiece;
+  ptr = newPiece;
 }
 void Square::removePiece(){
-  piece = NULL;
+  ptr = NULL;
 }

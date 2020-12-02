@@ -1,6 +1,9 @@
-//Square Class
+//Square.h
 
+#ifndef SQUARE_H //compilation protections
+#define SQUARE_H
 #include<iostream>
+#include "piece.h"
 
 using namespace std;
 
@@ -12,31 +15,36 @@ class Square{
   
   //col the square is located in the 2D array
   int col;
-  
-  //the type that is being held in square
-  //0 is represents the square is empty
-  //1 is for user piece
-  //2 is for computer's piece
-  int type;
 
+  //pointer to a Piece it can contain
   Piece * ptr;
  public:
-  //calls constructor for the Square object 
-  Square(int, int, int, Piece*);	
+
+  //Unparameterized constructor
+  Square();
+
+  //Parameterized constructor 
+  Square(int, int, Piece*);	
   
   //gets row 
   int getRow();
-		
+
+  //sets row to r
+  void setRow(int r);
+
   //gets col
   int getCol();
-  
-  //gets type
-  int getType();
 
+  //sets col to c
+  void setCol(int c);
+
+  //Checks if the Square contains a Piece
+  int isEmpty();
+
+  //Sets the Piece to a pointer
   void setPiece(Piece * newPiece);
 
+  //Removes the pointer to a Piece
   void removePiece();
 };
-
-
-
+#endif

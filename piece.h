@@ -1,3 +1,5 @@
+#ifndef PIECE_H //compilation protections 
+#define PIECE_H
 #include<iostream>
 
 using namespace std;
@@ -10,10 +12,14 @@ class Piece{
   int king;
 
  public:
+  
+  //constructor
   Piece(int isKing, int isBlack);
+
   //method for getting the color of the piece 
   int isBlack();
 
   //method for getting the type of the piece
   int isKing();	
 };
+#endif
