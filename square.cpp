@@ -32,6 +32,9 @@ void Square::setRow(int r){
 int Square::isEmpty(){
   return (ptr == NULL);
 }
+int Square::getColor(){
+  return ptr->isBlack();
+}
 void Square::setPiece(Piece * newPiece){
   ptr = newPiece;
 }

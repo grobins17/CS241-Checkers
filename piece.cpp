@@ -3,13 +3,16 @@
 
 using namespace std;
 
-Piece::Piece(int isKing, int isBlack){
+Piece::Piece(int isBlack){
   black = isBlack;
-  king = isKing;
+  king = 0;
 }
 int Piece::isKing(){
   return king;
 }
 int Piece::isBlack(){
   return black;
+}
+void Piece::promote(){
+  king = 1;
 }

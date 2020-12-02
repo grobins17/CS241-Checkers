@@ -14,12 +14,14 @@ class Piece{
  public:
   
   //constructor
-  Piece(int isKing, int isBlack);
+  Piece(int isBlack);
 
   //method for getting the color of the piece 
   int isBlack();
 
   //method for getting the type of the piece
-  int isKing();	
+  int isKing();
+
+  void promote();
 };
 #endif
