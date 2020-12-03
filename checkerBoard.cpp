@@ -35,7 +35,7 @@ void CheckerBoard::initBoard(){ //initialize the board
 }
 
 void CheckerBoard::printBoard(){ //debug function to print the board. 
-  for(int i = 0; i < 8; i++){
+  for(int i = 0; i < 8; i++){ //numbers for convenience
     cout << "  " <<i;
   }
   cout << endl;
@@ -43,10 +43,10 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
   for(int i = 0; i < 64; i++){
     if(board[i].isEmpty()){ //if the Square is empty, print an "[ ]"
       cout << "[ ]";
-    }else if((*board[i].ptr).isBlack() == 0){
-      cout << "[R]";
-    }else{
+    }else if((*board[i].ptr).isBlack()){ //if the Piece in the square is black, print "[B]"
       cout << "[B]";
+    }else{ //if the Piece in the square is red, print "[R]"
+      cout << "[R]";
     }
 
     if(i%8 == 7){
@@ -57,32 +57,32 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
     }
   }
 }
-void CheckerBoard::getLegalMoves(int current_row, int current_col){
-  int current = 8*current_row + current_col;
-  Piece cur_piece = *(board[current].ptr);
+void CheckerBoard::getLegalMoves(int current_row, int current_col){ 
+  int current = 8*current_row + current_col; //current index in the board
+  Piece cur_piece = *(board[current].ptr);  //current Piece 
   if(cur_piece.isKing()){
-    
-
-
-
-
-
-
-
+    if(cur_piece.isBlack()){
+      ;
+    }else{
+      ;
+    }
   }
   else{
-    ;
+    if(cur_piece.isBlack()){
+      ;
+    }else{
+      ;
+    }
   }
-
 }
 
-void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){
-  int current = 8*current_row + current_col;
-  int proposed = 8*proposed_row + proposed_col;
-  if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (proposed_row + proposed_col)%2 == 0){
+void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){ //move function
+  int current = 8*current_row + current_col; //current index in the Board
+  int proposed = 8*proposed_row + proposed_col; //proposed index in the Board
+  if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (proposed_row + proposed_col)%2 == 0){ //if the proposal is bad print an error message (not complete)
     cout << "that's no good!";
   }
-  else{
+  else{ //otherwise move the Piece to the proposed spot and remove it from the old Square
     board[proposed].setPiece(board[current].ptr);
     board[current].removePiece();
   }

@@ -16,11 +16,11 @@ class Square{
   //col the square is located in the 2D array
   int col;
 
-  //pointer to a Piece it can contain
-
  public:
 
+  //pointer to a Piece it can contain  
   Piece *ptr;
+
   //Unparameterized constructor
   Square();
 
@@ -41,8 +41,6 @@ class Square{
 
   //Checks if the Square contains a Piece
   int isEmpty();
-
-  //gets the color of the piece on the square
   
   //Sets the Piece to a pointer
   void setPiece(Piece * newPiece);

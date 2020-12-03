@@ -23,9 +23,12 @@ class CheckerBoard{
 
   void printBoard();
   //Print the board to the console
+
   void getLegalMoves(int, int);
+  // return a (maybe list?) of possible moves from a square
   
   void move(int row, int col, int dest_row, int dest_col);
+  //changes the Board and moves a Piece from one Square to another
   
 private:
 

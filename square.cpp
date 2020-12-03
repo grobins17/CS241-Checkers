@@ -5,8 +5,8 @@
 
 using namespace std;
 
-
-Square::Square(){
+//unparameterized constructor (for setup)
+Square::Square(){ 
   row = 0;
   col = 0;
   ptr = NULL;
@@ -17,24 +17,24 @@ Square::Square (int a, int b, Piece *piece){
 	col = b;
 	ptr = piece;
 }
-int Square::getCol(){
+int Square::getCol(){ //returns column
   return col;
 }
-void Square::setCol(int c){
+void Square::setCol(int c){ //sets column
   col = c;
 }
-int Square::getRow(){
+int Square::getRow(){ //returns row
   return row;
 }
-void Square::setRow(int r){
+void Square::setRow(int r){//sets row
   row = r;
 }
-int Square::isEmpty(){
+int Square::isEmpty(){ //returns true if no pointer to a Piece is in the square
   return (ptr == NULL);
 }
-void Square::setPiece(Piece * newPiece){
+void Square::setPiece(Piece * newPiece){ //changes the pointer to a Piece in the square
   ptr = newPiece;
 }
-void Square::removePiece(){
+void Square::removePiece(){ //removes the pointer to the Piece
   ptr = NULL;
 }

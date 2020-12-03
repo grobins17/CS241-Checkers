@@ -12,8 +12,9 @@ class Piece{
   int king;
 
  public:
-  Piece();  
+
   //constructor
+  Piece();  
 
   //method for getting the color of the piece 
   int isBlack();
