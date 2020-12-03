@@ -12,9 +12,8 @@ class Piece{
   int king;
 
  public:
-  
+  Piece();  
   //constructor
-  Piece(int isBlack);
 
   //method for getting the color of the piece 
   int isBlack();
@@ -22,6 +21,11 @@ class Piece{
   //method for getting the type of the piece
   int isKing();
 
+  //method for changing the king variable
   void promote();
+
+  //method for changing the color of the piece (for setup)
+  void setColor(int);
+  
 };
 #endif

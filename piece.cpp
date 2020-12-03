@@ -3,11 +3,11 @@
 
 using namespace std;
 
-Piece::Piece(int isBlack){
-  black = isBlack;
+Piece::Piece(){ //constructor (sets it to a red pawn)
+  black = 0;
   king = 0;
 }
-int Piece::isKing(){
+int Piece::isKing(){ 
   return king;
 }
 int Piece::isBlack(){
@@ -15,4 +15,7 @@ int Piece::isBlack(){
 }
 void Piece::promote(){
   king = 1;
+}
+void Piece::setColor(int isBlack){
+  black = isBlack;
 }
