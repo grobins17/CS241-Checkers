@@ -17,10 +17,10 @@ class Square{
   int col;
 
   //pointer to a Piece it can contain
-  Piece *ptr;
 
  public:
 
+  Piece *ptr;
   //Unparameterized constructor
   Square();
 
@@ -43,7 +43,6 @@ class Square{
   int isEmpty();
 
   //gets the color of the piece on the square
-  int getColor();
   
   //Sets the Piece to a pointer
   void setPiece(Piece * newPiece);
