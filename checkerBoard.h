@@ -23,6 +23,9 @@ class CheckerBoard{
 
   void printBoard();
   //Print the board to the console
+  void getLegalMoves(int, int);
+  
+  void move(int row, int col, int dest_row, int dest_col);
   
 private:
 

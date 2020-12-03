@@ -35,20 +35,55 @@ void CheckerBoard::initBoard(){ //initialize the board
 }
 
 void CheckerBoard::printBoard(){ //debug function to print the board. 
+  for(int i = 0; i < 8; i++){
+    cout << "  " <<i;
+  }
+  cout << endl;
+  cout << 0;
   for(int i = 0; i < 64; i++){
-
     if(board[i].isEmpty()){ //if the Square is empty, print an "[ ]"
       cout << "[ ]";
     }else if((*board[i].ptr).isBlack() == 0){
-      cout << "[x]";
+      cout << "[R]";
     }else{
-      cout << "[o]";
+      cout << "[B]";
     }
 
     if(i%8 == 7){
       cout << endl;
+      if((i+1)/8 != 8){
+	cout << (i+1)/8;
+      }
     }
   }
 }
+void CheckerBoard::getLegalMoves(int current_row, int current_col){
+  int current = 8*current_row + current_col;
+  Piece cur_piece = *(board[current].ptr);
+  if(cur_piece.isKing()){
+    
 
 
+
+
+
+
+
+  }
+  else{
+    ;
+  }
+
+}
+
+void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){
+  int current = 8*current_row + current_col;
+  int proposed = 8*proposed_row + proposed_col;
+  if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (proposed_row + proposed_col)%2 == 0){
+    cout << "that's no good!";
+  }
+  else{
+    board[proposed].setPiece(board[current].ptr);
+    board[current].removePiece();
+  }
+}
