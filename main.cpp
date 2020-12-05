@@ -19,6 +19,7 @@ int main(){
     cin >> current_row;
     cout << "Current col: " << endl;
     cin >> current_col;
+    board.getLegalMoves(current_row, current_col);
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
