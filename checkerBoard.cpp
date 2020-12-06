@@ -67,9 +67,73 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
   Piece cur_piece = *(board[current].ptr);  //current Piece 
   if(cur_piece.isKing()){ //checks if piece is king or not
     if(cur_piece.isBlack()){ //checks is the piece is black(user's piece)
-      ;
+      if(current%8 == 0){ // checks if the piece is on the left wall of board
+	if(board[lowerRightDiagonal].isEmpty()){//checks if left diagonal is empty
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates     
+	}
+	else if(board[upperRightDiagonal].isEmpty()){//checks if right diagonal is empty
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates     
+	}
+	else{
+          cout << "Sorry, there are no legal moves :(";
+        }
+      } 
+      else if(current%8 == 7){ // checks if piece is on the right wall
+     	if(board[lowerLeftDiagonal].isEmpty()){//checks if left diagonal is empty
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates     
+        }
+        else if(board[upperLeftDiagonal].isEmpty()){//checks if right diagonal is empty
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLefttDiagonal%8 << "\n"; // prints coordinates     
+        }
+        else{
+          cout << "Sorry, there are no legal moves :(";
+        } 
+      }
+      else{
+	if(board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()&& board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates     	
+	  cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLeftDiagonal%8 << "\n"; // prints coordinates
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates
+	}
+        else if(!board[lowerRightDiagonal].isEmpty() && board[lowerLeftDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+        }
+        else if(!board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates 
+        }
+        else if(!board[upperRightDiagonal].isEmpty() && board[upperLeftDiagonal].isEmpty()){
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLeftDiagonal%8 << "\n"; // prints coordinates
+        }
+        else if(!board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates
+        }
+        else{
+          cout << "Sorry, there are no legal moves :(";
+	}
+      }
     }else{
-      ;
+        if(board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()&& board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates      
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLeftDiagonal%8 << "\n"; // prints coordinates
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates
+        }
+        else if(!board[lowerRightDiagonal].isEmpty() && board[lowerLeftDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+        }
+        else if(!board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates 
+        }
+        else if(!board[upperRightDiagonal].isEmpty() && board[upperLeftDiagonal].isEmpty()){
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLeftDiagonal%8 << "\n"; // prints coordinates
+        }
+        else if(!board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()){
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates
+        }
+        else{
+          cout << "Sorry, there are no legal moves :(";
+	}
     }
   }
   else{ //not a king
