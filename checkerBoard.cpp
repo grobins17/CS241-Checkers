@@ -196,6 +196,10 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
     }
   }  
   cout << "\n";
+
+  cout << "Possible Captures:" << "\n";
+
+
 }
 
 void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){ //move function
@@ -209,3 +213,36 @@ void CheckerBoard::move(int current_row, int current_col, int proposed_row, int 
     board[current].removePiece();
   }
 }
+
+// checks to see if it is possible to catch a piece
+// returns 0 for False, 1 for True
+// direction gives a number indication of where the piece is hoping to go.
+// 1 is for upper left, 2 is for upper right, 3 is for lower left, 4 is for lower right 
+// captures the new piece
+int CheckerBoard::canCapture(int current, int direction){
+  int difference;
+  if(direction == 1){
+    difference = -9;
+  }
+  else if(direction == 2){
+    difference = -7;
+  }
+  else if(direction == 3){
+    difference = 7;
+  }
+  else if(direction == 4){
+    difference = 9;
+  }
+  else{ // will not give anything
+    difference = 0;
+  }
+  int capture_ending = current + difference;
+  if(board[capture_ending].isEmpty()){
+     return 1;
+  }
+  else{
+     return 0;
+  }
+}
+
+
