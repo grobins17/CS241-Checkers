@@ -83,7 +83,7 @@ void CheckerBoard::printArray(int *arr, int current){
         cout << "Row: " << current/8 - 1 << " ";
       }
       else if(arr[i] > current){ // checks if the new piece is greater than current. If so, it is on a lower row
-	cout << "Row: " << current/8 - 1 << " ";
+	cout << "Row: " << current/8 + 1 << " ";
       }
       else{//debugging purposes
  	continue;
@@ -180,31 +180,38 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
     if(cur_piece.isBlack()){ //checks is the piece is black
       if(current%8 == 0){//checks if the piece is on the left wall of board
 	if(board[lowerRightDiagonal].isEmpty()){//checks if left diagonal is empty
-          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates       
-        }else{
+          //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates       
+          blackLegal[1] = lowerRightDiagonal; 
+	}else{
 	  cout << "Sorry, there are no legal moves :(";
 	}
       }else if(current%8 ==7){ //checks if the piece is on the right wall 
 	if(board[lowerLeftDiagonal].isEmpty()){//checks if left diagonal is empty
-          cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates       
-        }else{
+          //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates       
+          blackLegal[0] = lowerLeftDiagonal;
+	}else{
 	  cout << "Sorry, there are no legal moves :(";
         } 
       }else{
 	if(board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	  cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
-	  cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates       
+	  //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+	  //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates       
+	  blackLegal[0] = lowerLeftDiagonal;
+	  blackLegal[1] = lowerRightDiagonal;
 	}
 	else if(!board[lowerRightDiagonal].isEmpty() && board[lowerLeftDiagonal].isEmpty()){
-	  cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+	  //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates
+	  blackLegal[0] = lowerLeftDiagonal;
 	}
 	else if(!board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	  cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates 
+	  //cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates 
+	  blackLegal[1] = lowerRightDiagonal;
 	}
 	else{
 	  cout << "Sorry, there are no legal moves :(";
 	}
       }
+      printArray(blackLegal,current);
     }else{ // piece is red
        if(current%8 == 0){//checks if the piece is on the left wall of board
 	 if(board[upperRightDiagonal].isEmpty()){//checks if right diagonal is empty
@@ -248,8 +255,6 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
   cout << "\n";
 
   cout << "Possible Captures:" << "\n";
-
-
 }
 
 void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){ //move function
