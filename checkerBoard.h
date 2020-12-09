@@ -29,10 +29,17 @@ class CheckerBoard{
   
   void move(int row, int col, int dest_row, int dest_col);
   //changes the Board and moves a Piece from one Square to another
+ 
+  int canCapture(int current, int direction);
+  // checks to see if a capture is possible. Adds to the array of possible moves
   
-private:
+  void capture(int current_row, int current_col, int proposed_row, int proposed_col); 
+  //used in the move method. If canCapture is true, then we call the capture method. It will be added as an if else statement
+  
+ private:
 
-  Square* board;
-  //array of squares to act as the "board"
+  Square* board;//array of squares to act as the "board"
+  int *blackLegal; // holds possible legal moves for black. Gave a possibility of 10 moves that could be done in one turn
+  int *redLegal; // holds possible legal mores for red
 };
 #endif

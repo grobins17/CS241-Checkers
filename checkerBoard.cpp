@@ -11,6 +11,20 @@ CheckerBoard::CheckerBoard(){ //constructor
     arr[i] = Square(i/8,i%8, NULL); //initialize all the Squares in the board
   }
   board = arr; //change the checkerBoard attribute to point at initialized array
+  
+  // initialize all the spots in blackLegal array
+  int* black = new int[10];
+  for(int j = 0; j < 10; j++){
+    black[j] = -1;
+  }
+  blackLegal = black;
+
+  // initialize all the spots in redLegal array
+  int* red = new int[10];
+  for(int z = 0; z < 10; z++){
+    red[z] = -1;
+  }
+  redLegal = red;
 }
 
 void CheckerBoard::initBoard(){ //initialize the board
@@ -70,6 +84,7 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
       if(current%8 == 0){ // checks if the piece is on the left wall of board
 	if(board[lowerRightDiagonal].isEmpty()){//checks if left diagonal is empty
           cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerRightDiagonal%8 << "\n"; // prints coordinates     
+//	  blackLegal
 	}
 	else if(board[upperRightDiagonal].isEmpty()){//checks if right diagonal is empty
           cout << "Row: " << current/8 - 1<< " " << "Col: " << upperRightDiagonal%8 << "\n"; // prints coordinates     
@@ -83,7 +98,7 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
           cout << "Row: " << current/8 + 1<< " " << "Col: " << lowerLeftDiagonal%8 << "\n"; // prints coordinates     
         }
         else if(board[upperLeftDiagonal].isEmpty()){//checks if right diagonal is empty
-          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLefttDiagonal%8 << "\n"; // prints coordinates     
+          cout << "Row: " << current/8 - 1<< " " << "Col: " << upperLeftDiagonal%8 << "\n"; // prints coordinates     
         }
         else{
           cout << "Sorry, there are no legal moves :(";
@@ -236,7 +251,9 @@ int CheckerBoard::canCapture(int current, int direction){
   else{ // will not give anything
     difference = 0;
   }
-  int capture_ending = current + difference;
+
+  int capture_ending = current + difference; // depending on the difference diven is the amount needed to be added to the current amount to get the index of the new spot.
+
   if(board[capture_ending].isEmpty()){
      return 1;
   }
@@ -245,4 +262,10 @@ int CheckerBoard::canCapture(int current, int direction){
   }
 }
 
-
+// used in move method 
+/*
+void CheckerBoard::capture(int current_row, int current_col, int proposed_row, int proposed_col){
+  int current = 8*current_row + current_col; //current index in the Board
+  int proposed = 8*proposed_row + proposed_col; //proposed index in the Board
+    
+}*/	
