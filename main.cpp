@@ -2,6 +2,8 @@
 #include "piece.h"
 #include "square.h"
 #include "checkerBoard.h"
+#include "gui.h"
+#include <ncurses.h>
 
 using namespace std;
 
@@ -14,6 +16,16 @@ int main(){
   CheckerBoard board;
   board.initBoard();
   board.printBoard();
+  /*
+  //GUI
+  initscr();
+  raw();
+  noecho();
+  display_title();
+  */
+
+
+  // TURNS
   while(count < 5){
     cout << "Current row: " << endl;
     cin >> current_row;
@@ -28,4 +40,8 @@ int main(){
     board.printBoard();
     count++;
   }
+
+  //GUI
+  //getch(); //waits for user input
+  //endwin(); //ends ncurses mode
 }
