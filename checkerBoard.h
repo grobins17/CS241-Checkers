@@ -24,7 +24,10 @@ class CheckerBoard{
   void printBoard();
   //Print the board to the console
 
-  void getLegalMoves(int, int);
+  void printArray(int *arr, int current);
+  //Prints given arrays
+
+  void getLegalMoves(int current_row, int current_col);
   // return a (maybe list?) of possible moves from a square
   
   void move(int row, int col, int dest_row, int dest_col);
