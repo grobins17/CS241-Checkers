@@ -119,7 +119,6 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
   int upperRightDiagonal = current -7;
   int lowerRightDiagonal = current + 9;
   int lowerLeftDiagonal = current +7;
-  cout << "Possible moves: \n";
   Piece cur_piece = *(board[current].ptr);  //current Piece 
   if(cur_piece.isKing()){
     
@@ -128,27 +127,23 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
       if(current%8 == 0){ //if it's on the left wall
 	if(board[lowerRightDiagonal].isEmpty()){ //if the spot is empty
 	  int *ptr =  new int[12];
-	  cout << lowerRightDiagonal/8 << " " << lowerRightDiagonal%8 << endl;
 	  Move *thisMove = new Move(lowerRightDiagonal, ptr); //add the new move to the stack
 	  stck.push(thisMove);
 	}
       }else if(current%8==7){ //if the black piece is on the right wall
 	if(board[lowerLeftDiagonal].isEmpty()){
 	  int *ptr = new int[12];
-	  cout << lowerLeftDiagonal/8 << " " << lowerLeftDiagonal%8 << endl;
 	  Move *thisMove = new Move(lowerLeftDiagonal, ptr);
 	  stck.push(thisMove);
 	}
       }else{ //if the black piece is in the middle
 	if(board[lowerRightDiagonal].isEmpty()){
 	  int *ptr =  new int[12];
-	  cout << lowerRightDiagonal/8 << " " << lowerRightDiagonal%8 << endl;
 	  Move *thisMove = new Move(lowerRightDiagonal, ptr); //Lower right
 	  stck.push(thisMove);
 	}
 	if(board[lowerLeftDiagonal].isEmpty()){ 
 	  int *ptr = new int[12];
-	  cout << lowerLeftDiagonal/8 << " " << lowerLeftDiagonal%8 << endl;
 	  Move *thisMove = new Move(lowerLeftDiagonal, ptr);
 	  stck.push(thisMove);
 	}
@@ -157,27 +152,23 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
       if(current%8 == 0){ //if
 	if(board[upperRightDiagonal].isEmpty()){
 	  int *ptr = new int[12];
-	  cout << upperRightDiagonal/8 << " " << upperRightDiagonal%8 << endl;
 	  Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
 	  stck.push(thisMove);
 	}
       }else if(current%8==7){
 	if(board[upperLeftDiagonal].isEmpty()){
 	  int *ptr = new int[12];
-	  cout << upperLeftDiagonal/8 << " " << upperLeftDiagonal%8 << endl;
 	  Move *thisMove = new Move(upperLeftDiagonal, ptr);
 	  stck.push(thisMove);
 	}
       }else{
 	if(board[upperRightDiagonal].isEmpty()){
 	  int *ptr =  new int[12];
-	  cout << upperRightDiagonal/8 << " " << upperRightDiagonal%8 << endl;
 	  Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
 	  stck.push(thisMove);
 	}
 	if(board[upperLeftDiagonal].isEmpty()){
 	  int *ptr = new int[12];
-	  cout << upperLeftDiagonal/8 << " " << upperLeftDiagonal%8 << endl;
 	  Move *thisMove = new Move(upperLeftDiagonal, ptr);
 	  stck.push(thisMove);
 	}
@@ -186,24 +177,79 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
   }
   return stck;
 }
-stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int *captured){
+stack<Move *> CheckerBoard::getJumps(int current_row, int current_col){ //TODO: check that we're not backtracking
   stack<Move *> stack;
   int current = 8*current_row + current_col; //current index in the board
-  int upperLeftDiagonal = current - 9;
-  int upperRightDiagonal = current -7;
-  int lowerRightDiagonal = current + 9;
-  int lowerLeftDiagonal = current +7;
+  int ULD = current - 9;
+  int URD = current -7;
+  int LRD = current + 9;
+  int LLD = current +7;  
+  int UULD = current - 18;
+  int UURD = current -14;
+  int LLRD = current + 18;
+  int LLLD = current +14;
+
   Piece cur_piece = *(board[current].ptr);  //current Piece
   if(cur_piece.isKing()){
 
-  }else{
-    if(cur_piece.isBlack()){
-
-    }else{
-
-
+  }else{ //if the piece is not kinged
+    if(cur_piece.isBlack()){ //if the regular piece is black
+      if(current_row >= 7){ //if the regular black piece is too close to the bottom of the board
+	return stack;
+      }else if (current_col <= 1){ //if the regular black piece is too close to the left side of the board
+	if(!board[LRD].isEmpty() && !(board[LRD].ptr)->isBlack() && board[LLRD].isEmpty()){
+	  int captured[1] = {LRD};
+	  Move *newmove = new Move(LLRD, captured);
+	  stack.push(newmove);
+	}
+      }else if (current_col >= 6){ //if the regular black piece is too close to the right side of the board
+	if(!board[LLD].isEmpty() && !(board[LLD].ptr)->isBlack() && board[LLLD].isEmpty()){
+	  int captured[1] = {LLD};
+	  Move *newmove = new Move(LLLD, captured);
+	  stack.push(newmove);
+	}
+      }else{ //if the regular black piece is in the middle of the board
+	if(!board[LRD].isEmpty() && !(board[LRD].ptr)->isBlack() && board[LLRD].isEmpty()){
+	  int captured[1] = {LRD};
+	  Move *newmove = new Move(LLRD, captured);
+	  stack.push(newmove);
+	}
+	if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack() && board[LLLD].isEmpty()){
+	  int captured[1] = {LLD};
+	  Move *newmove = new Move(LLLD, captured);
+	  stack.push(newmove);
+	}
+      }
+    }else{ //if the regular piece is red
+      if(current_row <= 1){ //if the regular redi piece is too close to the top of the board
+	return stack;
+      }else if (current_col <= 1){ //if the regular red piece is too close to the left side of the board
+	if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() && board[UURD].isEmpty()){
+	  int captured[1] = {URD};
+	  Move *newmove = new Move(UURD, captured);
+	  stack.push(newmove);
+	}
+      }else if (current_col >= 6){ //if the regular red piece is too close to the right side of the board
+	if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack() && board[UULD].isEmpty()){
+	  int captured[1] = {ULD};
+	  Move *newmove = new Move(UULD, captured);
+	  stack.push(newmove);
+	}
+      }else{ //if the regular red piece is in the middle of the board
+	if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() && board[UURD].isEmpty()){
+	  int captured[1] = {URD};
+	  Move *newmove = new Move(UURD, captured);
+	  stack.push(newmove);
+	}
+	if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack() && board[UULD].isEmpty()){
+	  int captured[1] = {ULD};
+	  Move *newmove = new Move(UULD, captured);
+	  stack.push(newmove);
+	}
+      }
     }
   }
+  return stack;
 }
 
 void CheckerBoard::getLegalMoves(int current_row, int current_col){ 
@@ -312,11 +358,18 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
 	printArray(redLegal,current);
     }
   }else{
-    stack<Move *> stck = getSlides(current_row, current_col);
-    cout << endl;
-    while(!stck.empty()){
-      cout << stck.top()->current/8 << " " << stck.top()->current%8 << endl;
-      stck.pop();
+    stack<Move *> slide_stack = getSlides(current_row, current_col);
+    stack<Move *> jump_stack = getJumps(current_row, current_col);
+    stack<Move *> alg_stack;
+    while(!slide_stack.empty()){
+      cout << slide_stack.top()->current/8 << " " << slide_stack.top()->current%8 << endl;
+      alg_stack.push(slide_stack.top());
+      slide_stack.pop();
+    }
+    while(!jump_stack.empty()){
+      cout << jump_stack.top()->current/8 << " " << jump_stack.top()->current%8 << endl;
+      alg_stack.push(jump_stack.top());
+      jump_stack.pop();
     }
   }
 }
@@ -328,48 +381,14 @@ void CheckerBoard::move(int current_row, int current_col, int proposed_row, int 
     cout << "that's no good!" << "\n" << "\n";
   }
   else{ //otherwise move the Piece to the proposed spot and remove it from the old Square
+    if(current - proposed > 9 || current -proposed < -9){
+      board[proposed].setPiece(board[current].ptr);
+      board[current].removePiece();
+      int captured = (current+proposed)/2;
+      board[captured].removePiece(); //TODO: increment a counter?
+    }else{
     board[proposed].setPiece(board[current].ptr);
     board[current].removePiece();
+    }
   }
 }
-
-// checks to see if it is possible to catch a piece
-// returns 0 for False, 1 for True
-// direction gives a number indication of where the piece is hoping to go.
-// 0 is for upper left, 1 is for upper right, 2 is for lower left, 3 is for lower right 
-// captures the new piece
-int CheckerBoard::canCapture(int current, int direction){
-  int difference;
-  if(direction == 0){
-    difference = -9;
-  }
-  else if(direction == 1){
-    difference = -7;
-  }
-  else if(direction == 2){
-    difference = 7;
-  }
-  else if(direction == 3){
-    difference = 9;
-  }
-  else{ // will not give anything
-    difference = 0;
-  }
-
-  int capture_ending = current + difference; // depending on the difference diven is the amount needed to be added to the current amount to get the index of the new spot.
-
-  if(board[capture_ending].isEmpty()){
-     return 1;
-  }
-  else{
-     return 0;
-  }
-}
-
-// used in move method 
-/*
-void CheckerBoard::capture(int current_row, int current_col, int proposed_row, int proposed_col){
-  int current = 8*current_row + current_col; //current index in the Board
-  int proposed = 8*proposed_row + proposed_col; //proposed index in the Board
-    
-}*/	
