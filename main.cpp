@@ -30,6 +30,9 @@ int main(){
   //Screen border
   init_color(COLOR_MAGENTA, 500, 500, 500);
   init_pair(4, COLOR_MAGENTA, COLOR_MAGENTA);
+  //King Piece
+  init_color(COLOR_YELLOW, 1000, 800, 100);
+  init_pair(5, COLOR_YELLOW, COLOR_YELLOW); 
   
   //TITLE BOX
   int title_h, title_w, title_y, title_x;

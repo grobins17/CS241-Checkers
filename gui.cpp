@@ -28,4 +28,5 @@ void display_title()
 
 	//display window
 	wrefresh(title);
+	refresh();
 }

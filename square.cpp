@@ -67,17 +67,48 @@ void Square::sqrefresh(){
    * - check piece to determine what character to print
    * - check what square you're on to determine color background
    */
+  //SQUARE COLORS
   if ((row-col) % 2 == 0){ //black square
-	wattron(window, COLOR_PAIR(2));
-	box(window, 0, 0);
-	mvwprintw(window, 1, 1, "    ");
-	wattroff(window, COLOR_PAIR(2));
+    wattron(window, COLOR_PAIR(2));
+    box(window, 0, 0);
+    mvwprintw(window, 1, 1, "    ");
+    wattroff(window, COLOR_PAIR(2));
   }
   else { //white square
-  	wattron(window, COLOR_PAIR(1));
-	box(window, 0, 0);
-	mvwprintw(window, 1, 1, "    ");
-	wattroff(window, COLOR_PAIR(1));
+    wattron(window, COLOR_PAIR(1));
+    box(window, 0, 0);
+    mvwprintw(window, 1, 1, "    ");
+    wattroff(window, COLOR_PAIR(1));
   } 
+
+  //PIECES
+  //// Is there a piece?
+  if (isEmpty() == 1){ //If the square does not have a piece, exit
+    wprintw(window, "r: %d c: %d", row, col);
+    wrefresh(window);
+    return;
+  }
+  // What color is the piece?
+  if (ptr->isBlack() == 1){ //returns 1 if black piece, 0 if red
+    //Piece is black
+    wattron(window, COLOR_PAIR(2));
+    mvwprintw(window, 1, 1, "    ");
+    wattroff(window, COLOR_PAIR(2));
+  }
+  else {
+    //Piece is red
+    wattron(window, COLOR_PAIR(3));
+    mvwprintw(window, 1, 1, "    ");
+    wattroff(window, COLOR_PAIR(3));
+  }
+
+  // Is the piece a king?
+  if (ptr->isKing() == 1) {
+    //Piece is a king
+    wattron(window, COLOR_PAIR(5));
+    mvwprintw(window, 1, 2, "  ");
+    wattroff(window, COLOR_PAIR(5));
+  }
+
   wrefresh(window);
 }
