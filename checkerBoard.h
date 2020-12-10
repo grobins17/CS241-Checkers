@@ -26,6 +26,15 @@ class CheckerBoard{
 
   void printArray(int *arr, int current);
   //Prints given arrays
+  
+  int isBlackEmpty();
+  //returns 0 if blackLegal array is empty or not
+  
+  int isRedEmpty();
+  //returns 0 if redLegal array is empty or not
+
+  int isCurrentEmpty(int current_row, int current_col);
+  //checks if current space is empty
 
   void getLegalMoves(int current_row, int current_col);
   // return a (maybe list?) of possible moves from a square
@@ -43,6 +52,8 @@ class CheckerBoard{
 
   Square* board;//array of squares to act as the "board"
   int *blackLegal; // holds possible legal moves for black. Gave a possibility of 10 moves that could be done in one turn
-  int *redLegal; // holds possible legal mores for red
+  int *redLegal; // holds possible legal mores for red. Gave a possibility of 10 moves that could be done in one turn
+  int *blackCapture; // holds possible legal captures for black. 
+  int *redCapture; // holds possible legal captures for red. 
 };
 #endif

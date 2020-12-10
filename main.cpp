@@ -31,7 +31,12 @@ int main(){
     cin >> current_row;
     cout << "Current col: " << endl;
     cin >> current_col;
+    if(board.isCurrentEmpty(current_row,current_col)){
+       cout << "Please choose a square that contains a checker piece." << "\n" << "\n";
+       continue;
+    }
     board.getLegalMoves(current_row, current_col);
+    cout << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
