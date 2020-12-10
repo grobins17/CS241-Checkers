@@ -84,7 +84,7 @@ void Square::sqrefresh(){
   //PIECES
   //// Is there a piece?
   if (isEmpty() == 1){ //If the square does not have a piece, exit
-    wprintw(window, "r: %d c: %d", row, col);
+    //wprintw(window, "r: %d c: %d", row, col);
     wrefresh(window);
     return;
   }
