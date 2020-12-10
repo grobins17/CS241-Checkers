@@ -24,6 +24,9 @@ class CheckerBoard{
   void printBoard();
   //Print the board to the console
 
+  void refreshBoard();
+  //Iterates through each square, refreshing the visial.
+
   void printArray(int *arr, int current);
   //Prints given arrays
   

@@ -51,7 +51,6 @@ void CheckerBoard::initBoard(){ //initialize the board
 	Piece *a = new Piece(); //make a new black Piece and add it to the board
 	a->setColor(1);
 	board[i].setPiece(a);
-	board[i].sqrefresh();
       }
 
       //for the bottow rows of checkers
@@ -59,7 +58,6 @@ void CheckerBoard::initBoard(){ //initialize the board
 	Piece *b = new Piece(); //make a new red Piece and add it to the board
 	b->setColor(0);
 	board[i].setPiece(b);
-	board[i].sqrefresh();
       }
     }
   }
@@ -86,6 +84,12 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
 	cout << (i+1)/8;
       }
     }
+  }
+}
+
+void CheckerBoard::refreshBoard(){
+  for(int i=0; i<64; i++){
+    	board[i].sqrefresh();
   }
 }
 

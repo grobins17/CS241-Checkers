@@ -8,11 +8,11 @@
 using namespace std;
 
 int main(){
-  //int count = 0;
-  //int current_row = 0;
-  //int current_col = 0;
-  //int proposed_row = 0;
-  //int proposed_col = 0;
+  int count = 0;
+  int current_row = 0;
+  int current_col = 0;
+  int proposed_row = 0;
+  int proposed_col = 0;
   
   //GUI
   initscr(); //makes screen
@@ -64,11 +64,36 @@ int main(){
   //BOARD INITIALIZATION
   CheckerBoard board;
   board.initBoard();
+  
   //board.printBoard();
+
+  //TODO - Start square
   
-  //refreshes title window to refresh entire screen but does not write over everything
-  wgetch(title);
-  
+  while( count < 5 ) {
+    int ch = wgetch(title);
+    switch(ch) {
+      case KEY_UP:
+	      //move up
+	      break;
+      case KEY_LEFT:
+	      // move left
+	      break;
+      case KEY_DOWN:
+	      //move down
+	      break;
+      case KEY_RIGHT:
+	      //move right
+	      break;
+      case ENTER:
+	      //select piece
+	      break;
+      default:
+	      printw("Please enter a valid input")
+	      break;
+    }
+    board.refreshBoard();
+  }
+
   /*
   // TURNS
   while(count < 5){

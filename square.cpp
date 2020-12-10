@@ -62,11 +62,6 @@ WINDOW * Square::getWindow(){
 }
 
 void Square::sqrefresh(){
-  /*
-   * TODO
-   * - check piece to determine what character to print
-   * - check what square you're on to determine color background
-   */
   //SQUARE COLORS
   if ((row-col) % 2 == 0){ //black square
     wattron(window, COLOR_PAIR(2));
