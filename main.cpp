@@ -8,35 +8,77 @@
 using namespace std;
 
 int main(){
-  int count = 0;
-  int current_row = 0;
-  int current_col = 0;
-  int proposed_row = 0;
-  int proposed_col = 0;
+  //int count = 0;
+  //int current_row = 0;
+  //int current_col = 0;
+  //int proposed_row = 0;
+  //int proposed_col = 0;
+  
+  //GUI
+  initscr(); //makes screen
+  raw(); //disables line buffer, AKA you don't have to press enter for getch and wgetch
+  noecho(); //disables input displaying on screen
+  start_color(); //enables colors
+  
+  //COLOR PAIRS
+  //White square
+  init_pair(1, COLOR_WHITE, COLOR_WHITE);
+  //Black square/piece
+  init_pair(2, COLOR_BLACK, COLOR_BLACK);
+  //Red piece
+  init_pair(3, COLOR_RED, COLOR_RED);
+  //Screen border
+  init_color(COLOR_MAGENTA, 500, 500, 500);
+  init_pair(4, COLOR_MAGENTA, COLOR_MAGENTA);
+  
+  //TITLE BOX
+  int title_h, title_w, title_y, title_x;
+
+  title_h = 3;
+  title_w = 10;
+  title_y = 3;
+  title_x = (COLS - title_w) / 2;
+
+  WINDOW *title = newwin(title_h, title_w, title_y, title_x);
+  box(title, 0, 0);
+  mvwprintw(title, 1, 1, "CHECKERS");
+  wrefresh(title); 
+  
+  //BOARD EDGE
+  int edge_h, edge_w, edge_y, edge_x;
+
+  edge_h = 26;
+  edge_w = 50;
+  edge_y = (LINES/6) - 1;
+  edge_x = (COLS/2) - 25;
+
+  WINDOW *edge = newwin(edge_h, edge_w, edge_y, edge_x);
+  wattron(edge, COLOR_PAIR(4));
+  box(edge, 0, 0);
+  wattroff(edge, COLOR_PAIR(4));
+  wrefresh(edge);
+
+  //BOARD INITIALIZATION
   CheckerBoard board;
   board.initBoard();
-  board.printBoard();
+  //board.printBoard();
+  
+  //refreshes title window to refresh entire screen but does not write over everything
+  wgetch(title);
+  
   /*
-  //GUI
-  initscr();
-  raw();
-  noecho();
-  display_title();
-  */
-
-
   // TURNS
   while(count < 5){
     cout << "Current row: " << endl;
     cin >> current_row;
     cout << "Current col: " << endl;
     cin >> current_col;
-    if(board.isCurrentEmpty(current_row,current_col)){
-       cout << "Please choose a square that contains a checker piece." << "\n" << "\n";
-       continue;
+    if (board.isCurrentEmpty(current_row, current_col)) {
+	cout << "Please choose a square that contains a checker piece." << "\n" << "\n";
+	continue;
     }
     board.getLegalMoves(current_row, current_col);
-    cout << "\n";
+    count << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
@@ -45,8 +87,9 @@ int main(){
     board.printBoard();
     count++;
   }
+  */
 
   //GUI
-  //getch(); //waits for user input
-  //endwin(); //ends ncurses mode
+  getch(); //REFRESHES PARENT SCREEN OVER CHILDREN
+  endwin(); //ends ncurses mode
 }

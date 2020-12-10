@@ -4,6 +4,7 @@
 #define SQUARE_H
 #include<iostream>
 #include "piece.h"
+#include <ncurses.h>
 
 using namespace std;
 
@@ -15,6 +16,9 @@ class Square{
   
   //col the square is located in the 2D array
   int col;
+
+  //window object is for GUI
+  WINDOW *window;
 
  public:
 
@@ -47,5 +51,13 @@ class Square{
 
   //Removes the pointer to a Piece
   void removePiece();
+
+  //GUI COMPONENTS
+  void initWindow();
+  
+  WINDOW * getWindow();
+  
+  void sqrefresh();
+
 };
 #endif

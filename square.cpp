@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include "square.h"
+#include <ncurses.h>
 
 using namespace std;
 
@@ -16,6 +17,9 @@ Square::Square (int a, int b, Piece *piece){
 	row = a;
 	col = b;
 	ptr = piece;
+        
+	//GUI
+	initWindow();
 }
 int Square::getCol(){ //returns column
   return col;
@@ -37,4 +41,43 @@ void Square::setPiece(Piece * newPiece){ //changes the pointer to a Piece in the
 }
 void Square::removePiece(){ //removes the pointer to the Piece
   ptr = NULL;
+}
+
+void Square::initWindow(){
+	int win_h, win_w, win_y, win_x;
+	win_h = 3;
+	win_w = 6;
+	win_y = (LINES/6) + (3*row);
+	win_x = ((COLS/2) - 24) + (6*(col%8));
+
+	window = newwin(win_h, win_w, win_y, win_x);
+        box(window, 0, 0);
+	
+	sqrefresh();	
+}
+
+//GUI COMPONENTS
+WINDOW * Square::getWindow(){
+  return window;
+}
+
+void Square::sqrefresh(){
+  /*
+   * TODO
+   * - check piece to determine what character to print
+   * - check what square you're on to determine color background
+   */
+  if ((row-col) % 2 == 0){ //black square
+	wattron(window, COLOR_PAIR(2));
+	box(window, 0, 0);
+	mvwprintw(window, 1, 1, "    ");
+	wattroff(window, COLOR_PAIR(2));
+  }
+  else { //white square
+  	wattron(window, COLOR_PAIR(1));
+	box(window, 0, 0);
+	mvwprintw(window, 1, 1, "    ");
+	wattroff(window, COLOR_PAIR(1));
+  } 
+  wrefresh(window);
 }
