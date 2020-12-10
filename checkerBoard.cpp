@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string>
 #include <stack>
+#include <algorithm>
 #include "checkerBoard.h"
 
 
@@ -27,21 +28,6 @@ CheckerBoard::CheckerBoard(){ //constructor
     red[z] = -1;
   }
   redLegal = red;
-
-  // initialize all the spots in blackLegal array
-  int* blackC = new int[10];
-  for(int j = 0; j < 10; j++){
-    blackC[j] = -1;
-  }
-  blackCapture = blackC;
-
-  // initialize all the spots in redLegal array
-  int* redC = new int[10];
-  for(int z = 0; z < 10; z++){
-    redC[z] = -1;
-  }
-  redCapture = redC;
-
 }
 
 void CheckerBoard::initBoard(){ //initialize the board
@@ -83,7 +69,6 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
     }else{ //if the Piece in the square is red, print "[R]"
       cout << "[R]";
     }
-
     if(i%8 == 7){
       cout << endl;
       if((i+1)/8 != 8){
@@ -149,7 +134,7 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
 	}
       }
     }else{ //if the piece is red
-      if(current%8 == 0){ //if
+      if(current%8 == 0){ 
 	if(board[upperRightDiagonal].isEmpty()){
 	  int *ptr = new int[12];
 	  Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
@@ -177,9 +162,10 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
   }
   return stck;
 }
-stack<Move *> CheckerBoard::getJumps(int current_row, int current_col){ //TODO: check that we're not backtracking
+stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[12], int isBlack, int isKing){ //TODO: check that we're not backtracking
   stack<Move *> stack;
   int current = 8*current_row + current_col; //current index in the board
+
   int ULD = current - 9;
   int URD = current -7;
   int LRD = current + 9;
@@ -189,34 +175,39 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col){ //TODO: 
   int LLRD = current + 18;
   int LLLD = current +14;
 
-  Piece cur_piece = *(board[current].ptr);  //current Piece
-  if(cur_piece.isKing()){
-
+  //int ULD_captured = std::find(caps, caps + 12,  ULD) != caps+12;
+  //int URD_captured = std::find(caps, caps + 12,  URD) != caps+12;
+  //int LLD_captured = std::find(caps, caps + 12,  LLD) != caps+12;
+  //int LRD_captured = std::find(caps, caps + 12,  LRD) != caps+12;
+  int *first_zero = std::find(caps, caps + 12, 0);
+  long index = (first_zero - caps)/sizeof(int);
+   if(isKing){
+    
   }else{ //if the piece is not kinged
-    if(cur_piece.isBlack()){ //if the regular piece is black
+    if(isBlack){ //if the regular piece is black
       if(current_row >= 7){ //if the regular black piece is too close to the bottom of the board
 	return stack;
       }else if (current_col <= 1){ //if the regular black piece is too close to the left side of the board
 	if(!board[LRD].isEmpty() && !(board[LRD].ptr)->isBlack() && board[LLRD].isEmpty()){
-	  int captured[1] = {LRD};
-	  Move *newmove = new Move(LLRD, captured);
+	  caps[index] = LRD;
+	  Move *newmove = new Move(LLRD, caps);
 	  stack.push(newmove);
 	}
       }else if (current_col >= 6){ //if the regular black piece is too close to the right side of the board
 	if(!board[LLD].isEmpty() && !(board[LLD].ptr)->isBlack() && board[LLLD].isEmpty()){
-	  int captured[1] = {LLD};
-	  Move *newmove = new Move(LLLD, captured);
+	  caps[index] = LLD;
+	  Move *newmove = new Move(LLLD, caps);
 	  stack.push(newmove);
 	}
       }else{ //if the regular black piece is in the middle of the board
 	if(!board[LRD].isEmpty() && !(board[LRD].ptr)->isBlack() && board[LLRD].isEmpty()){
-	  int captured[1] = {LRD};
-	  Move *newmove = new Move(LLRD, captured);
+	   caps[index] = LRD;
+	  Move *newmove = new Move(LLRD, caps);
 	  stack.push(newmove);
 	}
-	if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack() && board[LLLD].isEmpty()){
-	  int captured[1] = {LLD};
-	  Move *newmove = new Move(LLLD, captured);
+	if(!board[LLD].isEmpty() && !(board[LLD].ptr)->isBlack() && board[LLLD].isEmpty()){
+	  caps[index] = LLD;
+	  Move *newmove = new Move(LLLD, caps);
 	  stack.push(newmove);
 	}
       }
@@ -225,25 +216,25 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col){ //TODO: 
 	return stack;
       }else if (current_col <= 1){ //if the regular red piece is too close to the left side of the board
 	if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() && board[UURD].isEmpty()){
-	  int captured[1] = {URD};
-	  Move *newmove = new Move(UURD, captured);
+	   caps[index] = URD;
+	  Move *newmove = new Move(UURD, caps);
 	  stack.push(newmove);
 	}
       }else if (current_col >= 6){ //if the regular red piece is too close to the right side of the board
 	if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack() && board[UULD].isEmpty()){
-	  int captured[1] = {ULD};
-	  Move *newmove = new Move(UULD, captured);
+	  caps[index] = ULD;
+	  Move *newmove = new Move(UULD, caps);
 	  stack.push(newmove);
 	}
       }else{ //if the regular red piece is in the middle of the board
 	if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() && board[UURD].isEmpty()){
-	  int captured[1] = {URD};
-	  Move *newmove = new Move(UURD, captured);
+	   caps[index] = URD;
+	  Move *newmove = new Move(UURD, caps);
 	  stack.push(newmove);
 	}
 	if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack() && board[UULD].isEmpty()){
-	  int captured[1] = {ULD};
-	  Move *newmove = new Move(UULD, captured);
+	  caps[index] = ULD;
+	  Move *newmove = new Move(UULD, caps);
 	  stack.push(newmove);
 	}
       }
@@ -359,17 +350,31 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
     }
   }else{
     stack<Move *> slide_stack = getSlides(current_row, current_col);
-    stack<Move *> jump_stack = getJumps(current_row, current_col);
+    stack<Move *> jump_stack = getJumps(current_row, current_col, new int[12], cur_piece.isBlack(), cur_piece.isKing());
     stack<Move *> alg_stack;
+    stack<Move *> final_stack;
     while(!slide_stack.empty()){
-      cout << slide_stack.top()->current/8 << " " << slide_stack.top()->current%8 << endl;
-      alg_stack.push(slide_stack.top());
+      //cout << slide_stack.top()->current/8 << " " << slide_stack.top()->current%8 << endl;
+      final_stack.push(slide_stack.top());
       slide_stack.pop();
     }
     while(!jump_stack.empty()){
-      cout << jump_stack.top()->current/8 << " " << jump_stack.top()->current%8 << endl;
       alg_stack.push(jump_stack.top());
       jump_stack.pop();
+    }
+    while(!alg_stack.empty()){
+      stack<Move *> temp = getJumps(alg_stack.top()->current/8,alg_stack.top()->current%8, alg_stack.top()->captured, cur_piece.isBlack(), cur_piece.isKing());
+      final_stack.push(alg_stack.top());
+      alg_stack.pop();
+      while(!temp.empty()){
+	final_stack.push(temp.top());
+	alg_stack.push(temp.top());
+	temp.pop();
+      }
+    }
+    while(!final_stack.empty()){
+      cout << final_stack.top()->current/8 << " " << final_stack.top()->current%8 << final_stack.top()->captured[0]<< final_stack.top()->captured[1] <<endl;
+      final_stack.pop();
     }
   }
 }
