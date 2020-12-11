@@ -40,10 +40,10 @@ class CheckerBoard{
   int isCurrentEmpty(int current_row, int current_col);
   //checks if current space is empty
 
-  void getLegalMoves(int current_row, int current_col);
+  Move ** getLegalMoves(int current_row, int current_col);
   // return a (maybe list?) of possible moves from a square
   
-  void move(int row, int col, int dest_row, int dest_col);
+  void move(int row, int col, Move * move);
   //changes the Board and moves a Piece from one Square to another
  
   int canCapture(int current, int direction);

@@ -11,35 +11,6 @@ CheckerBoard::CheckerBoard(){ //constructor
     arr[i] = Square(i/8,i%8, NULL); //initialize all the Squares in the board
   }
   board = arr; //change the checkerBoard attribute to point at initialized array
-  
-  // initialize all the spots in blackLegal array
-  int* black = new int[10];
-  for(int j = 0; j < 10; j++){
-    black[j] = -1;
-  }
-  blackLegal = black;
-
-  // initialize all the spots in redLegal array
-  int* red = new int[10];
-  for(int z = 0; z < 10; z++){
-    red[z] = -1;
-  }
-  redLegal = red;
-
-  // initialize all the spots in blackLegal array
-  int* blackC = new int[10];
-  for(int j = 0; j < 10; j++){
-    blackC[j] = -1;
-  }
-  blackCapture = blackC;
-
-  // initialize all the spots in redLegal array
-  int* redC = new int[10];
-  for(int z = 0; z < 10; z++){
-    redC[z] = -1;
-  }
-  redCapture = redC;
-
 }
 
 void CheckerBoard::initBoard(){ //initialize the board
@@ -91,28 +62,6 @@ void CheckerBoard::refreshBoard(){
   for(int i=0; i<64; i++){
     	board[i].sqrefresh();
   }
-}
-
-// This is for cleaning upt the code. Checks if blackLegal is empty or not. 
-// We use this method with the identical one for red in main. If there aren't any legal moves, we won't print out "Proposed Row: "
-int CheckerBoard::isBlackEmpty(){
-  int result = 1;
-  for(int i = 0; i < 10; i++){
-    if(blackLegal[i] != -1)
-      result = 0; // returns false. That there is a possible move
-  }
-  return result;
-}
-
-// This is for cleaning upt the code. Checks if redLegal is empty or not.
-// We use this method with the identical one for black in main. If there aren't any legal moves, we won't print out "Proposed Row: "
-int CheckerBoard::isRedEmpty(){
-  int result = 1;
-  for(int i = 0; i < 10; i++){
-    if(redLegal[i] != -1)
-      result = 0; // returns false. That there is a possible move
-  }
-  return result;
 }
 
 int CheckerBoard::isCurrentEmpty(int current_row, int current_col){
@@ -274,7 +223,7 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
 	}
       }else{ //if the regular red piece is in the middle of the board
 	if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() && board[UURD].isEmpty()){
-	   newarr[index] = URD;
+	  newarr[index] = URD;
 	  Move *newmove = new Move(UURD, newarr);
 	  stack.push(newmove);
 	}
@@ -289,9 +238,7 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
   return stack;
 }
 
-
-
-void CheckerBoard::getLegalMoves(int current_row, int current_col){ 
+Move ** CheckerBoard::getLegalMoves(int current_row, int current_col){ 
   int current = 8*current_row + current_col; //current index in the board
   int upperLeftDiagonal = current - 9;
   int upperRightDiagonal = current -7;
@@ -370,76 +317,52 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
 	  }
 	}
     }
+    return new Move *[1];
   }else{
     int index = 0;
+    int number = 0;
+    int i = 0;
     int caps[12] = {};
     stack<Move *> final_stack = getSlides(current_row, current_col);
     stack<Move *> jump_stack = getJumps(current_row, current_col, caps, index, cur_piece.isBlack(), cur_piece.isKing());
+    Move ** final_array = new Move *[100];
+    while(!final_stack.empty()){
+      final_array[number++] = final_stack.top();
+      final_stack.pop();
+    }
     while(!jump_stack.empty()){
       stack<Move *> temp = getJumps(jump_stack.top()->current/8,jump_stack.top()->current%8, jump_stack.top()->captured, ++index, cur_piece.isBlack(), cur_piece.isKing());
-      final_stack.push(jump_stack.top());
+      final_array[number++] = jump_stack.top();
       jump_stack.pop();
       while(!temp.empty()){
 	jump_stack.push(temp.top());
 	temp.pop();
       }
     }
-    while(!final_stack.empty()){
-      cout << final_stack.top()->current/8 << " " << final_stack.top()->current%8 << " " << final_stack.top()->captured[0]<< " " << final_stack.top()->captured[1] << " " << final_stack.top()->captured << endl;
-      final_stack.pop();
+    while(i < 100){
+      if(final_array[i] != NULL){
+	cout << final_array[i]->current/8 << " " << final_array[i]->current%8 << " " << final_array[i]->captured[0]<< " " << final_array[i]->captured[1] << " " << final_array[i]->captured << endl;}
+	i+=1;
+      
     }
+    return final_array;
   }
 }
 
-void CheckerBoard::move(int current_row, int current_col, int proposed_row, int proposed_col){ //move function
+void CheckerBoard::move(int current_row, int current_col, Move * move){ //move function
   int current = 8*current_row + current_col; //current index in the Board
-  int proposed = 8*proposed_row + proposed_col; //proposed index in the Board
-  if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (proposed_row + proposed_col)%2 == 0){ //if the proposal is bad print an error message (not complete)
-    cout << "that's no good!" << "\n" << "\n";
+  int proposed = move->current;
+  if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (move->current/8 + move->current%8)%2 == 0){ //if the proposal is bad print an error message (not complete)
+    exit(1);
   }
   else{ //otherwise move the Piece to the proposed spot and remove it from the old Square
+    int *ptr = move->captured;
+    int i =0;
+    while(ptr[i]!= 0){
+      board[ptr[i]].removePiece();
+      i++;
+    }
     board[proposed].setPiece(board[current].ptr);
     board[current].removePiece();
   }
 }
-
-// checks to see if it is possible to catch a piece
-// returns 0 for False, 1 for True
-// direction gives a number indication of where the piece is hoping to go.
-// 0 is for upper left, 1 is for upper right, 2 is for lower left, 3 is for lower right 
-// captures the new piece
-int CheckerBoard::canCapture(int current, int direction){
-  int difference;
-  if(direction == 0){
-    difference = -9;
-  }
-  else if(direction == 1){
-    difference = -7;
-  }
-  else if(direction == 2){
-    difference = 7;
-  }
-  else if(direction == 3){
-    difference = 9;
-  }
-  else{ // will not give anything
-    difference = 0;
-  }
-
-  int capture_ending = current + difference; // depending on the difference diven is the amount needed to be added to the current amount to get the index of the new spot.
-
-  if(board[capture_ending].isEmpty()){
-     return 1;
-  }
-  else{
-     return 0;
-  }
-}
-
-// used in move method 
-/*
-void CheckerBoard::capture(int current_row, int current_col, int proposed_row, int proposed_col){
-  int current = 8*current_row + current_col; //current index in the Board
-  int proposed = 8*proposed_row + proposed_col; //proposed index in the Board
-    
-}*/	
