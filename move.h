@@ -8,6 +8,7 @@ class Move{
  public:
   Move();
   Move(int, int current[]);
+  void zeroout();
   int *captured;
   int current;
 };

@@ -47,7 +47,7 @@ class CheckerBoard{
   //used in the move method. If canCapture is true, then we call the capture method. It will be added as an if else statement
   stack<Move *> getSlides(int, int);
 
-  stack<Move *> getJumps(int, int, int *, int, int);
+  stack<Move *> getJumps(int, int, int *, int, int, int);
   
  private:
 
