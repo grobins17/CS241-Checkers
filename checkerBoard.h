@@ -6,8 +6,9 @@ Initializes the checkerBoard class
  */
 #ifndef CHECKERBOARD_H //definition check for compilation safety
 #define CHECKERBOARD_H
-
+#include <stack>
 #include<iostream>
+#include "move.h"
 #include "square.h"
 
 using namespace std;
