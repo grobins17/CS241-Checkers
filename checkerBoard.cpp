@@ -68,29 +68,6 @@ int CheckerBoard::isCurrentEmpty(int current_row, int current_col){
   return board[8*current_row + current_col].isEmpty();
 }
 
-//prints arrays of legal Moves
-//takes in array and current location in array
-//uses current location to find out what row the new spot is on
-void CheckerBoard::printArray(int *arr, int current){
-  for(int i = 0; i < 10; i++){ // goes through each value of the list
-    if(arr[i] != -1){  
-      if(arr[i] < current){ //checks if the new piece is less than the current. If so, it is on an upper row
-        cout << "Row: " << current/8 - 1 << " ";
-      }
-      else if(arr[i] > current){ // checks if the new piece is greater than current. If so, it is on a lower row
-	cout << "Row: " << current/8 + 1 << " ";
-      }
-      else{//debugging purposes
- 	continue;
-      }
-      cout << "Col: " << arr[i]%8 << "\n"; // array holds the new location and we can use it to find the col
-    }
-    else{
-      continue;
-    }
-  }
-}
-
 stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
   std::stack<Move *> stck;
   int current = 8*current_row + current_col; //current index in the board
@@ -99,9 +76,87 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
   int lowerRightDiagonal = current + 9;
   int lowerLeftDiagonal = current +7;
   Piece cur_piece = *(board[current].ptr);  //current Piece 
-  if(cur_piece.isKing()){
-    
-  }else{
+  if(cur_piece.isKing()){ //if piece is a king
+    if(current == 7){ //king in upper right corner
+      if(board[lowerLeftDiagonal].isEmpty()){
+	  int ptr[12] =  {};
+	  Move *thisMove = new Move(lowerLeftDiagonal, ptr);
+	  stck.push(thisMove);
+	}
+      
+    }else if(current == 56){ //king in lower left corner
+      if(board[upperRightDiagonal].isEmpty()){
+	  int ptr[12] =  {};
+	  Move *thisMove = new Move(upperRightDiagonal, ptr); 
+	  stck.push(thisMove);
+	}
+      
+    }else if (current%8 == 0){ //king on left wall
+      if(board[lowerRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerRightDiagonal, ptr);
+	stck.push(thisMove);
+      }
+      if(board[upperRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
+	stck.push(thisMove);
+      }
+      
+    }else if (current%8 == 7){ //king on right wall
+      if(board[lowerLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }
+      if(board[upperLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }
+      
+    }else if (current/8 == 0){ //king on top row
+      if(board[lowerLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }if(board[lowerRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerRightDiagonal, ptr);
+	stck.push(thisMove);
+      }
+      
+    }else if(current/8 == 7){ //king on bottom row
+      if(board[upperLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }if(board[upperRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperRightDiagonal, ptr);
+	stck.push(thisMove);
+      }
+     
+    }else{ //king is in the middle of the board 
+      if(board[upperLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }if(board[upperRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(upperRightDiagonal, ptr);
+	stck.push(thisMove);
+      }if(board[lowerLeftDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerLeftDiagonal, ptr);
+	stck.push(thisMove);
+      }if(board[lowerRightDiagonal].isEmpty()){
+	int ptr[12] =  {};
+	Move *thisMove = new Move(lowerRightDiagonal, ptr);
+	stck.push(thisMove);
+      }
+    }
+  }else{ //piece is not a king
     if(cur_piece.isBlack()){ //if it's a black piece
       if(current%8 == 0){ //if it's on the left wall
 	if(board[lowerRightDiagonal].isEmpty()){ //if the spot is empty
@@ -128,22 +183,22 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
 	}
       }
     }else{ //if the piece is red
-      if(current%8 == 0){ 
+      if(current%8 == 0){  //if the regular red piece is on the left wall
 	if(board[upperRightDiagonal].isEmpty()){
 	  int ptr[12] =  {};
-	  Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
+	  Move *thisMove = new Move(upperRightDiagonal, ptr); 
 	  stck.push(thisMove);
 	}
-      }else if(current%8==7){
+      }else if(current%8==7){ //if the regular red piece is on the right wall
 	if(board[upperLeftDiagonal].isEmpty()){
 	  int ptr[12] =  {};
 	  Move *thisMove = new Move(upperLeftDiagonal, ptr);
 	  stck.push(thisMove);
 	}
-      }else{
+      }else{ //if the regular reg piece is in the middle of the board
 	if(board[upperRightDiagonal].isEmpty()){
 	  int ptr[12] =  {};
-	  Move *thisMove = new Move(upperRightDiagonal, ptr); //Lower right
+	  Move *thisMove = new Move(upperRightDiagonal, ptr); 
 	  stck.push(thisMove);
 	}
 	if(board[upperLeftDiagonal].isEmpty()){
@@ -158,8 +213,7 @@ stack<Move *> CheckerBoard::getSlides(int current_row, int current_col){
 }
 stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[12], int index, int isBlack, int isKing){ //TODO: check that we're not backtracking
   stack<Move *> stack;
-  int current = 8*current_row + current_col; //current index in the board
-  
+  int current = 8*current_row + current_col; //current index in the board  
   int ULD = current - 9;
   int URD = current -7;
   int LRD = current + 9;
@@ -176,8 +230,91 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
   //int LLD_captured = std::find(caps, caps + 12,  LLD) != caps+12;
   //int LRD_captured = std::find(caps, caps + 12,  LRD) != caps+12;
 
-   if(isKing){
-    
+  if(isKing){ //if piece is a king (moves are the same b/w red and black the only difference is what they can capture)
+    if(current_row < 2 || current_col < 2){ //upper left corner
+      if(!board[LRD].isEmpty() && (board[LRD].ptr)->isBlack()-isBlack != 0 && board[LLRD].isEmpty()){
+	newarr[index] = LRD;
+	Move *newmove = new Move(LLRD, newarr);
+	stack.push(newmove);
+      }
+    }else if(current_row < 2 || current_col > 5){ //upper right corner
+      if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack()-isBlack != 0 && board[LLLD].isEmpty()){
+	newarr[index] = LLD;
+	Move *newmove = new Move(LLLD, newarr);
+	stack.push(newmove);
+      }
+    }else if(current_row >5 || current_col < 2){ //lower left corner
+      if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() -isBlack != 0 && board[UURD].isEmpty()){
+	newarr[index] = URD;
+	Move *newmove = new Move(UURD, newarr);
+	stack.push(newmove);
+      }
+    }else if(current_row > 5 || current_col > 5){ //lower right corner
+      if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack()-isBlack != 0 && board[UULD].isEmpty()){
+	newarr[index] = ULD;
+	Move *newmove = new Move(UULD, newarr);
+	stack.push(newmove);
+      }
+    }else if(current_row <2){ //uppper two rows
+      if(!board[LRD].isEmpty() && (board[LRD].ptr)->isBlack()-isBlack != 0 && board[LLRD].isEmpty()){
+	newarr[index] = LRD;
+	Move *newmove = new Move(LLRD, newarr);
+	stack.push(newmove);
+      }if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack()-isBlack != 0 && board[LLLD].isEmpty()){
+	newarr[index] = LLD;
+	Move *newmove = new Move(LLLD, newarr);
+	stack.push(newmove);
+      }
+    }else if (current_row > 5){ //lower two rows 
+      if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() -isBlack != 0 && board[UURD].isEmpty()){
+	newarr[index] = URD;
+	Move *newmove = new Move(UURD, newarr);
+	stack.push(newmove);
+      }if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack()-isBlack != 0 && board[UULD].isEmpty()){
+	newarr[index] = ULD;
+	Move *newmove = new Move(UULD, newarr);
+	stack.push(newmove);
+      }
+    }else if (current_col < 2){ //leftmost two columns
+      if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() -isBlack != 0 && board[UURD].isEmpty()){
+	newarr[index] = URD;
+	Move *newmove = new Move(UURD, newarr);
+	stack.push(newmove);
+      }if(!board[LRD].isEmpty() && (board[LRD].ptr)->isBlack()-isBlack != 0 && board[LLRD].isEmpty()){
+	newarr[index] = LRD;
+	Move *newmove = new Move(LLRD, newarr);
+	stack.push(newmove);
+      }
+    }else if (current_col > 5){ //rightmost two columns
+      if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack()-isBlack != 0 && board[UULD].isEmpty()){
+	newarr[index] = ULD;
+	Move *newmove = new Move(UULD, newarr);
+	stack.push(newmove);
+      }if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack()-isBlack != 0 && board[LLLD].isEmpty()){
+	newarr[index] = LLD;
+	Move *newmove = new Move(LLLD, newarr);
+	stack.push(newmove);
+      }
+    }else{ //middle of the board
+      if(!board[ULD].isEmpty() && (board[ULD].ptr)->isBlack()-isBlack != 0 && board[UULD].isEmpty()){
+	newarr[index] = ULD;
+	Move *newmove = new Move(UULD, newarr);
+	stack.push(newmove);
+      }if(!board[LLD].isEmpty() && (board[LLD].ptr)->isBlack()-isBlack != 0 && board[LLLD].isEmpty()){
+	newarr[index] = LLD;
+	Move *newmove = new Move(LLLD, newarr);
+	stack.push(newmove);
+      }if(!board[URD].isEmpty() && (board[URD].ptr)->isBlack() -isBlack != 0 && board[UURD].isEmpty()){
+	newarr[index] = URD;
+	Move *newmove = new Move(UURD, newarr);
+	stack.push(newmove);
+      }if(!board[LRD].isEmpty() && (board[LRD].ptr)->isBlack()-isBlack != 0 && board[LLRD].isEmpty()){
+	newarr[index] = LRD;
+	Move *newmove = new Move(LLRD, newarr);
+	stack.push(newmove);
+      }
+    }
+    return stack;
   }else{ //if the piece is not kinged
     if(isBlack){ //if the regular piece is black
       if(current_row >= 7){ //if the regular black piece is too close to the bottom of the board
@@ -240,114 +377,37 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
 
 Move ** CheckerBoard::getLegalMoves(int current_row, int current_col){ 
   int current = 8*current_row + current_col; //current index in the board
-  int upperLeftDiagonal = current - 9;
-  int upperRightDiagonal = current -7;
-  int lowerRightDiagonal = current + 9;
-  int lowerLeftDiagonal = current +7;
   cout << "Possible moves: \n";
-  Piece cur_piece = *(board[current].ptr);  //current Piece 
-  if(cur_piece.isKing()){ //checks if piece is king or not
-    if(cur_piece.isBlack()){ //checks is the piece is black(user's piece)
-      if(current%8 == 0){ // checks if the piece is on the left wall of board
-	if(board[lowerRightDiagonal].isEmpty()){//checks if left diagonal is empty
-	}
-	else if(board[upperRightDiagonal].isEmpty()){//checks if right diagonal is empty
-	}
-	else{
-	  cout << "Sorry, there are no legal moves :(";
-	}
-      } 
-      else if(current%8 == 7){ // checks if piece is on the right wall
-	if(board[lowerLeftDiagonal].isEmpty()){//checks if left diagonal is empty
-	}
-	else if(board[upperLeftDiagonal].isEmpty()){//checks if right diagonal is empty
-	}
-	else{
-	  cout << "Sorry, there are no legal moves :(";
-	} 
-      }
-      else{ //A regular piece that is in the middle of the board
-	if(board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()&& board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	}
-	else if(!board[lowerRightDiagonal].isEmpty() && board[lowerLeftDiagonal].isEmpty()){
-	}
-	else if(!board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	}
-	else if(!board[upperRightDiagonal].isEmpty() && board[upperLeftDiagonal].isEmpty()){
-	}
-	else if(!board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()){
-	}
-	else{
-	  cout << "Sorry, there are no legal moves :(";
-	}
-      }
-    }
-    else{ //piece is red 
-	if(current%8 == 0){ // checks if the piece is on the left wall of board
-	  if(board[lowerRightDiagonal].isEmpty()){//checks if left diagonal is empty
-	  }
-	  else if(board[upperRightDiagonal].isEmpty()){//checks if right diagonal is empty
-	  }
-	  else{
-	    cout << "Sorry, there are no legal moves :(";
-	  }
-	}  
-	else if(current%8 == 7){ // checks if piece is on the right wall
-	  if(board[lowerLeftDiagonal].isEmpty()){//checks if left diagonal is empty
-	  }
-	  else if(board[upperLeftDiagonal].isEmpty()){//checks if right diagonal is empty
-	  }
-	  else{
-	    cout << "Sorry, there are no legal moves :(";
-	  }
-	}
-	else{ // regular piece
-	  if(board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()&& board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	  }
-	  else if(!board[lowerRightDiagonal].isEmpty() && board[lowerLeftDiagonal].isEmpty()){
-	  }
-	  else if(!board[lowerLeftDiagonal].isEmpty() && board[lowerRightDiagonal].isEmpty()){
-	  }
-	  else if(!board[upperRightDiagonal].isEmpty() && board[upperLeftDiagonal].isEmpty()){
-	  }
-	  else if(!board[upperLeftDiagonal].isEmpty() && board[upperRightDiagonal].isEmpty()){
-	  }
-	  else{
-	    cout << "Sorry, there are no legal moves :(";
-	  }
-	}
-    }
-    return new Move *[1];
-  }else{
-    int index = 0;
-    int number = 0;
-    int i = 0;
-    int caps[12] = {};
-    stack<Move *> final_stack = getSlides(current_row, current_col);
-    stack<Move *> jump_stack = getJumps(current_row, current_col, caps, index, cur_piece.isBlack(), cur_piece.isKing());
-    Move ** final_array = new Move *[100];
-    while(!final_stack.empty()){
-      final_array[number++] = final_stack.top();
-      final_stack.pop();
-    }
-    while(!jump_stack.empty()){
-      stack<Move *> temp = getJumps(jump_stack.top()->current/8,jump_stack.top()->current%8, jump_stack.top()->captured, ++index, cur_piece.isBlack(), cur_piece.isKing());
-      final_array[number++] = jump_stack.top();
-      jump_stack.pop();
-      while(!temp.empty()){
-	jump_stack.push(temp.top());
-	temp.pop();
-      }
-    }
-    while(i < 100){
-      if(final_array[i] != NULL){
-	cout << final_array[i]->current/8 << " " << final_array[i]->current%8 << " " << final_array[i]->captured[0]<< " " << final_array[i]->captured[1] << " " << final_array[i]->captured << endl;}
-	i+=1;
-      
-    }
-    return final_array;
+  Piece cur_piece = *(board[current].ptr);  //current Piece  
+  int index = 0;
+  int number = 0;
+  int i = 0;
+  int caps[12] = {};
+  stack<Move *> final_stack = getSlides(current_row, current_col);
+  stack<Move *> jump_stack = getJumps(current_row, current_col, caps, index, cur_piece.isBlack(), cur_piece.isKing());
+  Move ** final_array = new Move *[100];
+  while(!final_stack.empty()){
+    final_array[number++] = final_stack.top();
+    final_stack.pop();
   }
+  while(!jump_stack.empty()){
+    stack<Move *> temp = getJumps(jump_stack.top()->current/8,jump_stack.top()->current%8, jump_stack.top()->captured, ++index, cur_piece.isBlack(), cur_piece.isKing());
+    final_array[number++] = jump_stack.top();
+    jump_stack.pop();
+    while(!temp.empty()){
+      jump_stack.push(temp.top());
+      temp.pop();
+    }
+  }
+  while(i < 100){
+    if(final_array[i] != NULL){
+      cout << final_array[i]->current/8 << " " << final_array[i]->current%8 << " " << final_array[i]->captured[0]<< " " << final_array[i]->captured[1] << " " << final_array[i]->captured << endl;}
+    i+=1;
+    
+  }
+  return final_array;
 }
+
 
 void CheckerBoard::move(int current_row, int current_col, Move * move){ //move function
   int current = 8*current_row + current_col; //current index in the Board
@@ -361,6 +421,11 @@ void CheckerBoard::move(int current_row, int current_col, Move * move){ //move f
     while(ptr[i]!= 0){
       board[ptr[i]].removePiece();
       i++;
+    }
+    if(proposed/8 ==7 && board[current].ptr->isBlack()){
+      board[current].ptr->promote();
+    }else if(proposed/8 ==0 && !(board[current].ptr->isBlack())){
+      board[current].ptr->promote();
     }
     board[proposed].setPiece(board[current].ptr);
     board[current].removePiece();

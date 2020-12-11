@@ -66,9 +66,9 @@ int main(){
   CheckerBoard board;
   board.initBoard();
 
-  board.printBoard();  
-  //board.refreshBoard();
-  //wgetch(title);
+  
+  board.refreshBoard();
+  wgetch(title);
 
   //TODO - Start square
   
@@ -164,9 +164,10 @@ int main(){
   }
 
   
-  /*
   // TURNS
-  while(count < 5){
+  /*
+  Move ** legalmoves = new Move *[100];
+  while(count < 10){
     cout << "Current row: " << endl;
     cin >> current_row;
     cout << "Current col: " << endl;
@@ -175,19 +176,19 @@ int main(){
 	cout << "Please choose a square that contains a checker piece." << "\n" << "\n";
 	continue;
     }
-    board.getLegalMoves(current_row, current_col);
-    count << "\n";
+    legalmoves = board.getLegalMoves(current_row, current_col);
+    cout << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
     cin >> proposed_col;
-    board.move(current_row, current_col, proposed_row, proposed_col);
+    board.move(current_row, current_col, legalmoves[proposed_row]);
     board.printBoard();
     count++;
   }
+  
   */
-
-  GUI
+  //GUI
   getch(); //REFRESHES PARENT SCREEN OVER CHILDREN
   endwin(); //ends ncurses mode
 }
