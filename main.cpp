@@ -66,10 +66,11 @@ int main(){
   CheckerBoard board;
   board.initBoard();
   
-  //board.printBoard();
+  board.refreshBoard();
+  wgetch(title);
 
   //TODO - Start square
-  
+/*  
   while( count < 5 ) {
     int ch = wgetch(title);
     switch(ch) {
@@ -142,7 +143,7 @@ int main(){
     selected=0;
     board.refreshBoard();
   }
-
+*/
   /*
   // TURNS
   while(count < 5){
