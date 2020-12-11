@@ -13,6 +13,7 @@ int main(){
   int current_col = 0;
   int proposed_row = 0;
   int proposed_col = 0;
+  int selected=0;
   
   //GUI
   initscr(); //makes screen
@@ -74,23 +75,71 @@ int main(){
     switch(ch) {
       case KEY_UP:
 	      //move up
+        if(selected==0){
+          if(current_row==7)
+            current_row==0;
+          else
+            ++current_row;
+          
+
+        }
+
 	      break;
       case KEY_LEFT:
 	      // move left
+        if(selected==0){
+          if(current_col==0)
+            current_col==7;
+          else
+            --current_col;
+          
+          
+        }
+
 	      break;
       case KEY_DOWN:
 	      //move down
+        if(selected==0){
+          if(current_row==7)
+            current_row==0;
+          else
+            ++current_row;
+          
+          
+        }
+
 	      break;
       case KEY_RIGHT:
-	      //move right
+	      if(selected==0){
+          if(current_col==0)
+            current_col==7;
+          else
+            --current_col;
+          
+          
+        }
+
 	      break;
       case ENTER:
 	      //select piece
+        if(board.isCurrentEmpty==0){
+          if(selected==0)
+            selected=1;
+          else
+            printw("You have cancelled the current move")
+          
+        }
+        else{
+          
+        }
+
 	      break;
       default:
 	      printw("Please enter a valid input")
 	      break;
     }
+  
+    selected=0;
     board.refreshBoard();
   }
 
