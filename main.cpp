@@ -13,8 +13,8 @@ int main(){
   int current_col = 0;
   int proposed_row = 0;
   int proposed_col = 0;
-  int selected=0;
-  
+  // int selected=0;
+  /*
   //GUI
   initscr(); //makes screen
   raw(); //disables line buffer, AKA you don't have to press enter for getch and wgetch
@@ -61,13 +61,13 @@ int main(){
   box(edge, 0, 0);
   wattroff(edge, COLOR_PAIR(4));
   wrefresh(edge);
-
+  */
   //BOARD INITIALIZATION
   CheckerBoard board;
   board.initBoard();
-  
-  board.refreshBoard();
-  wgetch(title);
+  board.printBoard();  
+  //board.refreshBoard();
+  //wgetch(title);
 
   //TODO - Start square
 /*  
@@ -144,7 +144,7 @@ int main(){
     board.refreshBoard();
   }
 */
-  /*
+  
   // TURNS
   while(count < 5){
     cout << "Current row: " << endl;
@@ -164,9 +164,9 @@ int main(){
     board.printBoard();
     count++;
   }
-  */
+  
 
   //GUI
-  getch(); //REFRESHES PARENT SCREEN OVER CHILDREN
-  endwin(); //ends ncurses mode
+  //getch(); //REFRESHES PARENT SCREEN OVER CHILDREN
+  //endwin(); //ends ncurses mode
 }
