@@ -1,4 +1,5 @@
 //Square Class
+//Hi miles
 
 #include<iostream>
 #include "square.h"
