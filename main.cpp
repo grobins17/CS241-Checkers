@@ -106,7 +106,6 @@ int main(){
 	continue;
     }
     board.getLegalMoves(current_row, current_col);
-    count << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
