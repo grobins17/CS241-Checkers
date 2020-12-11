@@ -61,12 +61,14 @@ int main(){
   box(edge, 0, 0);
   wattroff(edge, COLOR_PAIR(4));
   wrefresh(edge);
-
+  
   //BOARD INITIALIZATION
   CheckerBoard board;
   board.initBoard();
-  
-  //board.printBoard();
+
+  board.printBoard();  
+  //board.refreshBoard();
+  //wgetch(title);
 
   //TODO - Start square
   
@@ -161,6 +163,7 @@ int main(){
     board.refreshBoard();
   }
 
+  
   /*
   // TURNS
   while(count < 5){
@@ -184,7 +187,7 @@ int main(){
   }
   */
 
-  //GUI
+  GUI
   getch(); //REFRESHES PARENT SCREEN OVER CHILDREN
   endwin(); //ends ncurses mode
 }

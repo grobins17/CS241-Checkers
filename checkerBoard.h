@@ -54,8 +54,6 @@ class CheckerBoard{
   stack<Move *> getSlides(int, int);
 
   stack<Move *> getJumps(int, int, int *, int, int, int);
-
-
   
  private:
 
