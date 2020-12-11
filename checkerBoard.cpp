@@ -82,9 +82,6 @@ void CheckerBoard::refreshBoard(){
     	board[i].sqrefresh();
   }
 }
-int CheckerBoard::isCurrentEmpty(int current_row, int current_col){
-  return board[8*current_row + current_col].isEmpty();
-}
 
 void CheckerBoard::printArray(int *arr, int current){
   for(int i = 0; i < 10; i++){ // goes through each value of the list
