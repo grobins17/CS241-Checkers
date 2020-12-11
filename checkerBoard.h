@@ -6,10 +6,9 @@ Initializes the checkerBoard class
  */
 #ifndef CHECKERBOARD_H //definition check for compilation safety
 #define CHECKERBOARD_H
-#include <stack>
+
 #include<iostream>
 #include "square.h"
-#include "move.h"
 
 using namespace std;
 
@@ -31,6 +30,12 @@ class CheckerBoard{
   void printArray(int *arr, int current);
   //Prints given arrays
   
+  int isBlackEmpty();
+  //returns 0 if blackLegal array is empty or not
+  
+  int isRedEmpty();
+  //returns 0 if redLegal array is empty or not
+
   int isCurrentEmpty(int current_row, int current_col);
   //checks if current space is empty
 
@@ -45,9 +50,6 @@ class CheckerBoard{
   
   void capture(int current_row, int current_col, int proposed_row, int proposed_col); 
   //used in the move method. If canCapture is true, then we call the capture method. It will be added as an if else statement
-  stack<Move *> getSlides(int, int);
-
-  stack<Move *> getJumps(int, int, int *, int, int);
   
  private:
 

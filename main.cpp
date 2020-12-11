@@ -66,11 +66,10 @@ int main(){
   CheckerBoard board;
   board.initBoard();
   
-  board.refreshBoard();
-  wgetch(title);
+  //board.printBoard();
 
   //TODO - Start square
-/*  
+  
   while( count < 5 ) {
     int ch = wgetch(title);
     switch(ch) {
@@ -78,72 +77,90 @@ int main(){
 	      //move up
         if(selected==0){
           if(current_row==7)
-            current_row==0;
+            current_row=0;
           else
             ++current_row;
-          
-
         }
-
+        else{
+          if(proposed_row==7)
+            proposed_row=0;
+          else
+            ++proposed_row;
+        }
 	      break;
       case KEY_LEFT:
 	      // move left
         if(selected==0){
           if(current_col==0)
-            current_col==7;
+            current_col=7;
           else
             --current_col;
-          
-          
         }
-
+        else{
+          if(proposed_col==0)
+            proposed_col=7;
+          else
+            --proposed_col;
+        }
 	      break;
       case KEY_DOWN:
 	      //move down
         if(selected==0){
-          if(current_row==7)
-            current_row==0;
+          if(current_row==0)
+            current_row=7;
           else
-            ++current_row;
-          
-          
+            --current_row;
         }
-
+        else{
+          if(proposed_col==0)
+            proposed_row=7;
+          else
+            --proposed_row;
+        }
 	      break;
       case KEY_RIGHT:
 	      if(selected==0){
           if(current_col==0)
-            current_col==7;
+            current_col=7;
           else
             --current_col;
-          
-          
-        }
-
-	      break;
-      case ENTER:
-	      //select piece
-        if(board.isCurrentEmpty==0){
-          if(selected==0)
-            selected=1;
-          else
-            printw("You have cancelled the current move")
-          
         }
         else{
-          
+          if(proposed_col==7)
+            proposed_col=0;
+          else
+            ++proposed_col;
+        }
+	      break;
+      case 10: // ENTER
+	      //select piece
+        if(board.isCurrentEmpty(current_row,current_col)==0){
+          if(selected==0){
+            selected=1;
+            board.getLegalMoves(current_row,current_col);
+          }
+          else{
+            
+          }
+        }
+        else{
+          if(board.isCurrentEmpty(current_row,current_col)==0){
+
+          }
+          else
+            printw("Empty square");
         }
 
+        selected=0;
 	      break;
       default:
-	      printw("Please enter a valid input")
+	      printw("Please enter a valid input");
 	      break;
     }
   
-    selected=0;
     board.refreshBoard();
   }
-*/
+
   /*
   // TURNS
   while(count < 5){
@@ -156,6 +173,7 @@ int main(){
 	continue;
     }
     board.getLegalMoves(current_row, current_col);
+    count << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
