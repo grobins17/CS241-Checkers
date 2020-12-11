@@ -181,6 +181,7 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
   //int LRD_captured = std::find(caps, caps + 12,  LRD) != caps+12;
   int *first_zero = std::find(caps, caps + 12, 0);
   long index = (first_zero - caps)/sizeof(int);
+  //cout <<index;
    if(isKing){
     
   }else{ //if the piece is not kinged
@@ -350,7 +351,8 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
     }
   }else{
     stack<Move *> slide_stack = getSlides(current_row, current_col);
-    stack<Move *> jump_stack = getJumps(current_row, current_col, new int[12], cur_piece.isBlack(), cur_piece.isKing());
+    int caps[12] = {};
+    stack<Move *> jump_stack = getJumps(current_row, current_col, caps, cur_piece.isBlack(), cur_piece.isKing());
     stack<Move *> alg_stack;
     stack<Move *> final_stack;
     while(!slide_stack.empty()){
@@ -373,7 +375,7 @@ void CheckerBoard::getLegalMoves(int current_row, int current_col){
       }
     }
     while(!final_stack.empty()){
-      cout << final_stack.top()->current/8 << " " << final_stack.top()->current%8 << final_stack.top()->captured[0]<< final_stack.top()->captured[1] <<endl;
+      cout << final_stack.top()->current/8 << " " << final_stack.top()->current%8 << " " << final_stack.top()->captured[0]<< " " << final_stack.top()->captured[1] <<endl;
       final_stack.pop();
     }
   }
