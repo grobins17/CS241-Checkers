@@ -8,12 +8,6 @@
 using namespace std;
 
 int main(){
-  int count = 0;
-  int current_row = 0;
-  int current_col = 0;
-  int proposed_row = 0;
-  int proposed_col = 0;
-  int selected=0;
   
   //GUI
   initscr(); //makes screen
@@ -70,7 +64,19 @@ int main(){
   board.refreshBoard();
   wgetch(title);
 
-  //TODO - Start square
+  //Start square
+  WINDOW* sqStart = board.getSqWin(33);
+  wprintw(sqStart, "test");
+  wrefresh(sqStart);
+  wgetch(sqStart);
+/*
+  //TURNS
+  int count = 0;
+  int current_row = 0;
+  int current_col = 0;
+  int proposed_row = 0;
+  int proposed_col = 0;
+  int selected=0;
   
   while( count < 5 ) {
     int ch = wgetch(title);
@@ -163,7 +169,8 @@ int main(){
     board.refreshBoard();
   }
 
-  
+  */
+
   // TURNS
   /*
   Move ** legalmoves = new Move *[100];

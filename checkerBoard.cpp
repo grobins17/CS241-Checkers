@@ -58,6 +58,10 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
   }
 }
 
+WINDOW* CheckerBoard::getSqWin(int index){
+  return board[index].getWindow();
+}
+
 void CheckerBoard::refreshBoard(){
   for(int i=0; i<64; i++){
     	board[i].sqrefresh();
