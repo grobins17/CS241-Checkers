@@ -96,7 +96,7 @@ int main(){
   Square current_square = startSquare;
   Move ** legalmoves = new Move *[100];
   while(turns < 10){
-  while( selected != 1 ) {
+  while( selected != 1 ) {  
     ch = wgetch(inBox);
     mvwprintw(inBox, 0, 0, "Key pressed: %c", ch);
     switch(ch) {
@@ -240,7 +240,9 @@ int main(){
 	  if(islegal){
 	    board.move(selected_row, selected_col, legalmoves[distance(legals, location)]);
 	    board.getSquare(selected_row, selected_col).sqrefresh();
+	    board.getSquare(current_row, current_col).sqrefresh();
 	    selected = 0;
+	    current_square = board.getSquare(current_row, current_col);
 	  }else{
 	    mvwprintw(inBox, 0, 0, "That is not a valid move");
 	    break;
