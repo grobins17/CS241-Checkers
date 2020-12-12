@@ -1,9 +1,12 @@
 #include<iostream>
+#include <stdlib.h>
+#include <algorithm>
+#include <ncurses.h>
+#include <unistd.h>
 #include "piece.h"
 #include "square.h"
 #include "checkerBoard.h"
 #include "gui.h"
-#include <ncurses.h>
 
 using namespace std;
 
@@ -61,7 +64,7 @@ int main(){
   //INPUT BOX
   int in_h, in_w, in_y, in_x;
 
-  in_h = 1;
+  in_h = 3;
   in_w = COLS;
   in_y = (5 * LINES) / 6;
   in_x = 0;
@@ -79,11 +82,11 @@ int main(){
   keypad(inBox, TRUE); //enables usage of arrow keys
   
   //Start square
-  Square startSquare = board.getSquare(7, 6);
+  Square startSquare = board.getSquare(0, 0);
   startSquare.highlight();
 
 //TURNS
-  //int count = 0;
+  int turns = 0;
   int ch;
   int current_row = 0;
   int current_col = 0;
@@ -92,7 +95,7 @@ int main(){
   int selected=0;
   Square current_square = startSquare;
   Move ** legalmoves = new Move *[100];
-  
+  while(turns < 10){
   while( selected != 1 ) {
     ch = wgetch(inBox);
     mvwprintw(inBox, 0, 0, "Key pressed: %c", ch);
@@ -143,29 +146,43 @@ int main(){
 	  break;
       case 10: //ASCII for 10
 	//select piece
-          if(board.isCurrentEmpty(current_row,current_col)==0){
+          if(board.isCurrentEmpty(current_row,current_col)== 1){
             //selected square is empty
  		break;
           }
           else {
 	    //selected square is not empty
-	    selected=1;
 	    selected_row = current_row;
-	    selected_col = selected_col;
-    	    legalmoves = board.getLegalMoves(selected_row, selected_col);
+	    selected_col = current_col;
+	    legalmoves = board.getLegalMoves(selected_row, selected_col);
+	    if(legalmoves[0] == NULL){ //list of moves is empty
+	      mvwprintw(inBox, 0, 0, "That piece has no legal moves!");
+	      selected = 0;
+	    }else{
+	      selected=1;
+	    }	    
 	  }
 	  break;
       default:
-	      mvwprintw(inBox, 0, 0, "Please enter a valid input");
-	      break;
+	exit(1);
+	mvwprintw(inBox, 0, 0, "Please enter a valid input");
+	break;
     }
   }
 
   int i = 0;
+  int islegal = 0;
+  int legals[100] = {0};
   while (i < 100){
-      mvwprintw(inBox, 0, 0, "row: %d, col:%d      ", legalmoves[i]->current/8, legalmoves[i]->current%8);
+    if(legalmoves[i] != NULL){
+      mvwprintw(inBox, i, 0, "row: %d, col:%d      ", legalmoves[i]->current/8, legalmoves[i]->current%8);
+      board.getSquare(legalmoves[i]->current/8, legalmoves[i]->current%8).highlight();
+      legals[i] = legalmoves[i]->current;
+      i++;
+    }else{
+      break;
+    }
   }
-
   //PIECE HAS BEEN SELECTED
   while (selected == 1){
     ch = wgetch(inBox);
@@ -218,20 +235,31 @@ int main(){
       case 10: //ASCII for ENTER
 	//select piece
 	if (board.isCurrentEmpty(current_row, current_col)){
-	  board.move(selected_row, selected_col, legalmoves[0]);
+	  int *location = std::find(legals, legals + 100, current_row*8 + current_col);
+	  islegal = (location != legals + 100);
+	  if(islegal){
+	    board.move(selected_row, selected_col, legalmoves[distance(legals, location)]);
+	    board.getSquare(selected_row, selected_col).sqrefresh();
+	    selected = 0;
+	  }else{
+	    mvwprintw(inBox, 0, 0, "That is not a valid move");
+	    break;
+	  }
 	}
 	else{
-		mvwprintw(inBox, 0, 0, "You cannot move here, there is a piece there");
+	  mvwprintw(inBox, 0, 0, "You cannot move here, there is a piece there");
 	}
 	break;
       
       default:
+	exit(1);
 	mvwprintw(inBox, 0, 0, "Please enter a valid input");
 	break;
     }
   }
   board.refreshBoard();
-
+  turns++;
+  }
   // TURNS
   /*
   while(count < 10){
