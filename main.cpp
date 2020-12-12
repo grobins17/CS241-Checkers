@@ -27,7 +27,9 @@ int main(){
   init_pair(4, COLOR_MAGENTA, COLOR_MAGENTA);
   //King Piece
   init_color(COLOR_YELLOW, 1000, 800, 100);
-  init_pair(5, COLOR_YELLOW, COLOR_YELLOW); 
+  init_pair(5, COLOR_YELLOW, COLOR_YELLOW);
+  //Highlight
+  init_pair(6, COLOR_CYAN, COLOR_CYAN);
   
   //TITLE BOX
   int title_h, title_w, title_y, title_x;
@@ -55,6 +57,17 @@ int main(){
   box(edge, 0, 0);
   wattroff(edge, COLOR_PAIR(4));
   wrefresh(edge);
+
+  //INPUT BOX
+  int in_h, in_w, in_y, in_x;
+
+  in_h = 1;
+  in_w = COLS;
+  in_y = (5 * LINES) / 6;
+  in_x = 0;
+
+  WINDOW *inBox = newwin(in_h, in_w, in_y, in_x);
+  wrefresh(inBox);
   
   //BOARD INITIALIZATION
   CheckerBoard board;
@@ -62,118 +75,165 @@ int main(){
 
   
   board.refreshBoard();
-  wgetch(title);
-
+  //wgetch(title);
+  keypad(inBox, TRUE); //enables usage of arrow keys
+  
   //Start square
-  WINDOW* sqStart = board.getSqWin(33);
-  wprintw(sqStart, "test");
-  wrefresh(sqStart);
-  wgetch(sqStart);
-/*
-  //TURNS
-  int count = 0;
+  Square startSquare = board.getSquare(7, 6);
+  startSquare.highlight();
+
+//TURNS
+  //int count = 0;
+  int ch;
   int current_row = 0;
   int current_col = 0;
-  int proposed_row = 0;
-  int proposed_col = 0;
+  int selected_row = 0;
+  int selected_col = 0;
   int selected=0;
+  Square current_square = startSquare;
+  Move ** legalmoves = new Move *[100];
   
-  while( count < 5 ) {
-    int ch = wgetch(title);
+  while( selected != 1 ) {
+    ch = wgetch(inBox);
+    mvwprintw(inBox, 0, 0, "Key pressed: %c", ch);
     switch(ch) {
-      case KEY_UP:
-	      //move up
-        if(selected==0){
-          if(current_row==7)
-            current_row=0;
-          else
-            ++current_row;
-        }
-        else{
-          if(proposed_row==7)
-            proposed_row=0;
-          else
-            ++proposed_row;
-        }
-	      break;
-      case KEY_LEFT:
-	      // move left
-        if(selected==0){
-          if(current_col==0)
-            current_col=7;
-          else
-            --current_col;
-        }
-        else{
-          if(proposed_col==0)
-            proposed_col=7;
-          else
-            --proposed_col;
-        }
-	      break;
       case KEY_DOWN:
-	      //move down
-        if(selected==0){
-          if(current_row==0)
-            current_row=7;
-          else
-            --current_row;
-        }
-        else{
-          if(proposed_col==0)
-            proposed_row=7;
-          else
-            --proposed_row;
-        }
-	      break;
-      case KEY_RIGHT:
-	      if(selected==0){
-          if(current_col==0)
-            current_col=7;
-          else
-            --current_col;
-        }
-        else{
-          if(proposed_col==7)
-            proposed_col=0;
-          else
-            ++proposed_col;
-        }
-	      break;
-      case 10: // ENTER
-	      //select piece
-        if(board.isCurrentEmpty(current_row,current_col)==0){
-          if(selected==0){
-            selected=1;
-            board.getLegalMoves(current_row,current_col);
-          }
+	  //move down
+          if(current_row==7)
+            break;
           else{
-            
-          }
-        }
-        else{
+            ++current_row;
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+	  break;
+      case KEY_RIGHT:
+	// move right
+          if(current_col==7)
+          	break;
+	  else{
+            ++current_col;
+	    current_square.sqrefresh(); //unhighlights
+	    current_square = board.getSquare(current_row, current_col); 
+	    current_square.highlight(); //highlights new current_square
+	  }
+	  break;
+      case KEY_UP:
+	// move up
+          if(current_row==0)
+            break;
+          else{
+            --current_row;	      
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+        break;
+      case KEY_LEFT:
+	// move left
+      	  if(current_col==0)
+            break;
+          else{
+            --current_col;
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+	  break;
+      case 10: //ASCII for 10
+	//select piece
           if(board.isCurrentEmpty(current_row,current_col)==0){
-
+            //selected square is empty
+ 		break;
           }
-          else
-            printw("Empty square");
-        }
-
-        selected=0;
-	      break;
+          else {
+	    //selected square is not empty
+	    selected=1;
+	    selected_row = current_row;
+	    selected_col = selected_col;
+    	    legalmoves = board.getLegalMoves(selected_row, selected_col);
+	  }
+	  break;
       default:
-	      printw("Please enter a valid input");
+	      mvwprintw(inBox, 0, 0, "Please enter a valid input");
 	      break;
     }
-  
-    board.refreshBoard();
   }
 
-  */
+  int i = 0;
+  while (i < 100){
+      mvwprintw(inBox, 0, 0, "row: %d, col:%d      ", legalmoves[i]->current/8, legalmoves[i]->current%8);
+  }
+
+  //PIECE HAS BEEN SELECTED
+  while (selected == 1){
+    ch = wgetch(inBox);
+    mvwprintw(inBox, 0, 0, "Key pressed: %c", ch);
+    switch(ch) {
+      case KEY_DOWN:
+	  //move down
+          if(current_row==7)
+            break;
+          else{
+            ++current_row;
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+	  break;
+      case KEY_RIGHT:
+	// move right
+          if(current_col==7)
+            break;
+          else{
+            ++current_col;
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+	  break;
+      case KEY_UP:
+	// move up
+          if(current_row==0)
+            break;
+          else{
+            --current_row;	      
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+        break;
+      case KEY_LEFT:
+	// move left
+      	  if(current_col==0)
+            break;
+          else{
+            --current_col;
+	    current_square.sqrefresh();
+	    current_square = board.getSquare(current_row, current_col);
+	    current_square.highlight();
+	  }
+	  break;
+      case 10: //ASCII for ENTER
+	//select piece
+	if (board.isCurrentEmpty(current_row, current_col)){
+	  board.move(selected_row, selected_col, legalmoves[0]);
+	}
+	else{
+		mvwprintw(inBox, 0, 0, "You cannot move here, there is a piece there");
+	}
+	break;
+      
+      default:
+	mvwprintw(inBox, 0, 0, "Please enter a valid input");
+	break;
+    }
+  }
+  board.refreshBoard();
 
   // TURNS
   /*
-  Move ** legalmoves = new Move *[100];
   while(count < 10){
     cout << "Current row: " << endl;
     cin >> current_row;
@@ -183,13 +243,11 @@ int main(){
 	cout << "Please choose a square that contains a checker piece." << "\n" << "\n";
 	continue;
     }
-    legalmoves = board.getLegalMoves(current_row, current_col);
     cout << "\n";
     cout << "Proposed row: " << endl;
     cin >> proposed_row;
     cout << "Proposed col: " << endl;
     cin >> proposed_col;
-    board.move(current_row, current_col, legalmoves[proposed_row]);
     board.printBoard();
     count++;
   }

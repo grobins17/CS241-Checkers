@@ -54,10 +54,15 @@ class Square{
 
   //GUI COMPONENTS
   void initWindow();
+  //initializes the windows for each square
   
   WINDOW * getWindow();
-  
-  void sqrefresh();
+  //gets the window of a square
 
+  void sqrefresh();
+  // refreshes the square
+
+  void highlight();
+  //Highlights the square in a cyan color
 };
 #endif

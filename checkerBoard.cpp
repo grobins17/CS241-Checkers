@@ -58,8 +58,9 @@ void CheckerBoard::printBoard(){ //debug function to print the board.
   }
 }
 
-WINDOW* CheckerBoard::getSqWin(int index){
-  return board[index].getWindow();
+Square CheckerBoard::getSquare(int row, int col){
+  int index = (row*8) + col;
+  return board[index];
 }
 
 void CheckerBoard::refreshBoard(){
@@ -381,11 +382,9 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
 
 Move ** CheckerBoard::getLegalMoves(int current_row, int current_col){ 
   int current = 8*current_row + current_col; //current index in the board
-  cout << "Possible moves: \n";
   Piece cur_piece = *(board[current].ptr);  //current Piece  
   int index = 0;
   int number = 0;
-  int i = 0;
   int caps[12] = {};
   stack<Move *> final_stack = getSlides(current_row, current_col);
   stack<Move *> jump_stack = getJumps(current_row, current_col, caps, index, cur_piece.isBlack(), cur_piece.isKing());
@@ -402,12 +401,6 @@ Move ** CheckerBoard::getLegalMoves(int current_row, int current_col){
       jump_stack.push(temp.top());
       temp.pop();
     }
-  }
-  while(i < 100){
-    if(final_array[i] != NULL){
-      cout << final_array[i]->current/8 << " " << final_array[i]->current%8 << " " << final_array[i]->captured[0]<< " " << final_array[i]->captured[1] << " " << final_array[i]->captured << endl;}
-    i+=1;
-    
   }
   return final_array;
 }

@@ -25,7 +25,7 @@ class CheckerBoard{
   void printBoard();
   //Print the board to the console
   
-  WINDOW* getSqWin(int index);
+  Square getSquare(int row, int col);
   //Gets the window of the square at the index position of the board;
 
   void refreshBoard();

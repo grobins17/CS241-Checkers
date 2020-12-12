@@ -108,3 +108,11 @@ void Square::sqrefresh(){
 
   wrefresh(window);
 }
+
+void Square::highlight(){
+  sqrefresh();
+  wattron(window, COLOR_PAIR(6) | A_BLINK);
+  box(window, 0, 0);
+  wattroff(window, COLOR_PAIR(6) | A_BLINK);
+  wrefresh(window);
+}
