@@ -221,7 +221,7 @@ void userturn(WINDOW *inBox, CheckerBoard *theboard){
 	  mvwprintw(inBox, 0, 0, "You cannot move here, there is a piece there");
 	}
 	break;  
-      case 'Q':
+      case 'q':
 	  endwin();
 	  exit(0);
       default:
@@ -299,7 +299,7 @@ int main(){
   mvwprintw(control, 3, 1, "ACTION -> KEY");
   mvwprintw(control, 5, 1, "Move -> Arrow Keys");
   mvwprintw(control, 6, 1, "Select -> Enter");
-  mvwprintw(control, 7, 1, "Quit -> Q");
+  mvwprintw(control, 7, 1, "Quit -> q");
   wrefresh(control);
 
   //INPUT BOX
