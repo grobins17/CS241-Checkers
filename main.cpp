@@ -9,6 +9,9 @@
 #include "gui.h"
 
 using namespace std;
+
+int done = 0; // Global flag
+
 int findLastElement(Move **legalmoves){
   int i = -1;
   for(; i < 100; i++){
@@ -40,7 +43,12 @@ void computerturn(CheckerBoard *theboard){
       }
     }
   }
-  board.move(place[0]/8, place[0]%8, goodmoves[0]);
+  if(goodmoves[0] == NULL){
+    done = 1;
+  }
+  else{
+    board.move(place[0]/8, place[0]%8, goodmoves[0]);
+  }
 }
 
 
@@ -128,7 +136,7 @@ void userturn(WINDOW *inBox, CheckerBoard *theboard){
 	    }	    
 	  }
 	  break;
-      case 'Q':
+      case 'q':
 	  endwin();
 	  exit(0);
       default:
@@ -323,7 +331,17 @@ int main(){
   int turns = 0;
   while(turns < 100 && board.numRed > 0 && board.numBlack > 0){
     userturn(inBox, &board);
+    if(board.numBlack == 0){
+      wrefresh(inBox);
+      mvwprintw(inBox, 0, 0, "You Beat the Impossible Computer!");
+      break;
+    }
     computerturn(&board);
+    if(done == 1){
+      wrefresh(inBox);
+      mvwprintw(inBox, 0, 0, "You Beat the Impossible Computer!");	
+      break;
+    }
     board.refreshBoard();
   }
   usleep(3000000);
