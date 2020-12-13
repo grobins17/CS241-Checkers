@@ -33,7 +33,7 @@ class CheckerBoard{
 
   int isCurrentEmpty(int current_row, int current_col);
   //checks if current space is empty
-
+    
   Move ** getLegalMoves(int current_row, int current_col);
   // return a (maybe list?) of possible moves from a square
   

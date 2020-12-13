@@ -1,5 +1,5 @@
 //gui.h
-
+  
 #define GUI_H
 
 #include <iostream>

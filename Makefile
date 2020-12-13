@@ -1,6 +1,6 @@
 CFLAGS= -O -g -Wall -Werror -Wshadow -Wundef -Wconversion
 
-main: main.o piece.o square.o checkerBoard.o gui.o move.o
+main: clean main.o piece.o square.o checkerBoard.o gui.o move.o
 	g++ $(CFLAGS) -o main main.cpp piece.o square.o move.o checkerBoard.o gui.o -lncurses
 piece.o: piece.cpp piece.h
 	g++ $(CFLAGS) -c piece.cpp

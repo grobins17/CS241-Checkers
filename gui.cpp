@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include "gui.h"
-
+   
 using namespace std;
 
 void display_title()

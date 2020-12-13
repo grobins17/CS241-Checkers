@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "move.h"
 using namespace std;
-
+   
 Move::Move(){
   current = 0;
   int jumped[12] = {};

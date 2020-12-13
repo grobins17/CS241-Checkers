@@ -108,7 +108,7 @@ void Square::sqrefresh(){
 
   wrefresh(window);
 }
-
+     
 void Square::highlight(){
   sqrefresh();
   wattron(window, COLOR_PAIR(6) | A_BLINK);

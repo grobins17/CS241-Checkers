@@ -226,7 +226,7 @@ stack<Move *> CheckerBoard::getJumps(int current_row, int current_col, int caps[
   int LRD = current + 9;
   int LLD = current +7;  
   int UULD = current - 18;
-  int UURD = current -14;
+  int UURD = current -14;   
   int LLRD = current + 18;
   int LLLD = current +14;
 

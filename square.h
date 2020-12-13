@@ -42,7 +42,7 @@ class Square{
 
   //sets col to c
   void setCol(int c);
-
+      
   //Checks if the Square contains a Piece
   int isEmpty();
   

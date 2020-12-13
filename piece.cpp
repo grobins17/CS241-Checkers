@@ -2,7 +2,7 @@
 #include "piece.h"
 
 using namespace std;
-
+    
 Piece::Piece(){ //constructor (sets it to a red pawn)
   black = 0;
   king = 0;
