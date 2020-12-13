@@ -10,7 +10,7 @@
 
 using namespace std;
 int findLastElement(Move **legalmoves){
-  int i = 0;
+  int i = -1;
   for(; i < 100; i++){
     if (legalmoves[i+1] == NULL){
       break;
@@ -33,7 +33,7 @@ void computerturn(CheckerBoard *theboard){
       if(blackSquare.ptr->isBlack()){
 	legalmoves = board.getLegalMoves(i/8, i%8);
 	what = findLastElement(legalmoves);
-	if(what > 0){
+	if(what >= 0){
 	  place[index] = i;
 	  goodmoves[index++] = legalmoves[what];
 	}
