@@ -43,9 +43,13 @@ class CheckerBoard{
   stack<Move *> getSlides(int, int);
 
   stack<Move *> getJumps(int, int, int *, int, int, int);
+
+  int numBlack;
+  
+  int numRed;
   
  private:
-
+  
   Square* board;//array of squares to act as the "board"
  };
 #endif

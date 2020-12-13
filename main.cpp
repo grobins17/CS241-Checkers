@@ -86,13 +86,16 @@ int main(){
   startSquare.highlight();
 
 //TURNS
+
   int turns = 0;
   int ch;
+
   int current_row = 0;
   int current_col = 0;
   int selected_row = 0;
   int selected_col = 0;
   int selected=0;
+
   Square current_square = startSquare;
   Move ** legalmoves = new Move *[100];
   while(turns < 10){
@@ -239,6 +242,8 @@ int main(){
 	  islegal = (location != legals + 100);
 	  if(islegal){
 	    board.move(selected_row, selected_col, legalmoves[distance(legals, location)]);
+	    mvwprintw(inBox, 1, 0, "Number Black: %d", board.numBlack);
+	    mvwprintw(inBox, 2, 0, "Number Red: %d", board.numRed);
 	    board.getSquare(selected_row, selected_col).sqrefresh();
 	    board.getSquare(current_row, current_col).sqrefresh();
 	    selected = 0;

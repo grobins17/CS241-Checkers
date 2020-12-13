@@ -6,6 +6,8 @@
 using namespace std;
 
 CheckerBoard::CheckerBoard(){ //constructor
+  numRed = 12;
+  numBlack = 12;
   Square* arr = new Square[64]; //make the board (now a one-dimensional array of Squares)
   for(int i = 0; i < 64; i++){
     arr[i] = Square(i/8,i%8, NULL); //initialize all the Squares in the board
@@ -409,6 +411,7 @@ Move ** CheckerBoard::getLegalMoves(int current_row, int current_col){
 void CheckerBoard::move(int current_row, int current_col, Move * move){ //move function
   int current = 8*current_row + current_col; //current index in the Board
   int proposed = move->current;
+  int isBlack = board[current].ptr->isBlack();
   if(board[current].isEmpty() || (!(board[proposed].isEmpty())) || (move->current/8 + move->current%8)%2 == 0){ //if the proposal is bad print an error message (not complete)
     exit(1);
   }
@@ -417,6 +420,11 @@ void CheckerBoard::move(int current_row, int current_col, Move * move){ //move f
     int i =0;
     while(ptr[i]!= 0){
       board[ptr[i]].removePiece();
+      if(isBlack){
+	numRed -= 1;	
+      }else{
+	numBlack -= 1;
+      }
       i++;
     }
     if(proposed/8 ==7 && board[current].ptr->isBlack()){
