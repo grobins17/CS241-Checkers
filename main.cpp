@@ -61,6 +61,23 @@ int main(){
   wattroff(edge, COLOR_PAIR(4));
   wrefresh(edge);
 
+  //CONTROLS
+  int control_h, control_w, control_y, control_x;
+
+  control_h = 26;
+  control_w = 20;
+  control_y = LINES/6 - 1;
+  control_x = 3;
+
+  WINDOW* control = newwin(control_h, control_w, control_y, control_x);
+  box(control, 0, 0);
+  mvwprintw(control, 1, 6, "CONTROLS");
+  mvwprintw(control, 3, 1, "ACTION -> KEY");
+  mvwprintw(control, 5, 1, "Move -> Arrow Keys");
+  mvwprintw(control, 6, 1, "Select -> Enter");
+  mvwprintw(control, 7, 1, "Quit -> Q");
+  wrefresh(control);
+
   //INPUT BOX
   int in_h, in_w, in_y, in_x;
 
