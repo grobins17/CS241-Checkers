@@ -163,8 +163,10 @@ int main(){
 	    }	    
 	  }
 	  break;
+      case 'Q':
+	  endwin();
+	  exit(1);
       default:
-	exit(1);
 	mvwprintw(inBox, 0, 0, "Please enter a valid input");
 	break;
     }
@@ -251,10 +253,11 @@ int main(){
 	else{
 	  mvwprintw(inBox, 0, 0, "You cannot move here, there is a piece there");
 	}
-	break;
-      
+	break;  
+      case 'Q':
+	  endwin();
+	  exit(1);
       default:
-	exit(1);
 	mvwprintw(inBox, 0, 0, "Please enter a valid input");
 	break;
     }
