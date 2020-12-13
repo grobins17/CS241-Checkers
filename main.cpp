@@ -9,6 +9,17 @@
 #include "gui.h"
 
 using namespace std;
+int findLastElement(Move **legalmoves){
+  int i = 0;
+  for(; i < 100; i++){
+    if (legalmoves[i++] == NULL){
+      i -=1;
+      break;
+    }
+  }
+  return i-1;
+}
+
 
 void computerturn(CheckerBoard *theboard){
   CheckerBoard board = *(theboard);
@@ -16,15 +27,17 @@ void computerturn(CheckerBoard *theboard){
   Move **legalmoves = new Move *[100];
   Square blackSquare;
   int index = 0;
+  int what = 0;
   int *place = new int[12];
   for (int i = 0; i < 64; i++){
     blackSquare = board.getSquare(i/8, i %8);
     if(!blackSquare.isEmpty()){
       if(blackSquare.ptr->isBlack()){
 	legalmoves = board.getLegalMoves(i/8, i%8);
-	if(legalmoves[0] != NULL){
+	what = findLastElement(legalmoves);
+	if(what > 0){
 	  place[index] = i;
-	  goodmoves[index++] = legalmoves[0];
+	  goodmoves[index++] = legalmoves[what];
 	}
       }
     }
@@ -34,6 +47,7 @@ void computerturn(CheckerBoard *theboard){
 
 
 void userturn(WINDOW *inBox, CheckerBoard *theboard){
+
   CheckerBoard board = *(theboard);
   Square startSquare = board.getSquare(7, 6);
   startSquare.highlight();
