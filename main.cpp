@@ -12,12 +12,11 @@ using namespace std;
 int findLastElement(Move **legalmoves){
   int i = 0;
   for(; i < 100; i++){
-    if (legalmoves[i++] == NULL){
-      i -=1;
+    if (legalmoves[i+1] == NULL){
       break;
     }
   }
-  return i-1;
+  return i;
 }
 
 void computerturn(CheckerBoard *theboard){
